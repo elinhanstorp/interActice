@@ -1,36 +1,29 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-
+<RelativeLayout
+    android:id="@+id/activity_main"
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:layout_alignParentBottom="true"
-    xmlns:design="http://schemas.android.com/apk/res-auto"
     tools:context="com.example.elin.interactice.MainActivity">
 
     <FrameLayout
-        android:id="@+id/container"
+        android:id="@+id/frame_layout"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
-        android:background="#f1f1f1">
+        android:layout_height="match_parent"
+        android:layout_above="@+id/navigation"
+        android:animateLayoutChanges="true">
 
     </FrameLayout>
 
     <android.support.design.widget.BottomNavigationView
-        android:id="@+id/bottom_navigation"
-        android:layout_width="368dp"
+        android:id="@+id/navigation"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="start"
-        design:menu="@menu/bottom_nav_items"
-        tools:layout_editor_absoluteY="32dp"
-        tools:layout_editor_absoluteX="8dp" />
+        android:layout_alignParentBottom="true"
+        android:background="@color/colorwhite"
 
-</LinearLayout>
+        app:menu="@menu/bottom_nav_items"/>
+</RelativeLayout>
 
-
-<!-- <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-</android.support.constraint.ConstraintLayout>
--->

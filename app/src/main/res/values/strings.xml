@@ -5,4 +5,9 @@
     <string name="menu_statistics">Statistics</string>
     <string name="menu_settings">Settings</string>
 
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="testsida">Detta är en ny sida!</string>
+    <string name="startsida">Detta är startsidan, här kan du planera och köra igång din träning!</string>
+    <string name="guide_text">Nu ska du få lära dig hur appen funkar!</string>
 </resources>
