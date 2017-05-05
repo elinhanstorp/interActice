@@ -10,4 +10,8 @@
     <string name="testsida">Detta är en ny sida!</string>
     <string name="startsida">Detta är startsidan, här kan du planera och köra igång din träning!</string>
     <string name="guide_text">Nu ska du få lära dig hur appen funkar!</string>
+
+
+    <string name="nbrJumps">0</string>
+    <string name="resetButton">reset</string>
 </resources>
