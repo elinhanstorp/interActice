@@ -69,13 +69,13 @@ public class MainActivity extends FragmentActivity {
             public void onCheckedChanged(RadioGroup group, int checkedId) {
                 switch(checkedId){
                     case R.id.radioButtonEasy:
-                        //intent.putExtra("LEVEL", "easy");
+                        intent.putExtra("LEVEL", "easy");
                         break;
                     case R.id.radioButtonMedium:
-                        //intent.putExtra("LEVEL", "medium");
+                        intent.putExtra("LEVEL", "medium");
                         break;
                     case R.id.radioButtonHard:
-                        //intent.putExtra("LEVEL", "hard");
+                        intent.putExtra("LEVEL", "hard");
                         break;
 
                 }
