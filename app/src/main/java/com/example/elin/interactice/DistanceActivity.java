@@ -1,12 +1,14 @@
 package com.example.elin.interactice;
 
 import android.content.Context;
+import android.content.Intent;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.TextView;
 
 public class DistanceActivity extends AppCompatActivity implements SensorEventListener{
@@ -69,4 +71,10 @@ public class DistanceActivity extends AppCompatActivity implements SensorEventLi
     @Override
     public void onAccuracyChanged(Sensor sensor, int accuracy) {
     }
+    /*public void goToJump(View view) {
+        Intent intent;
+        intent = new Intent(this, JumpActivity.class);
+        startActivity(intent);
+    }*/
+
 }

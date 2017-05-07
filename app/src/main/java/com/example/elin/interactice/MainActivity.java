@@ -8,6 +8,7 @@ import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentTransaction;
 import android.os.Bundle;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.Button;
 import android.widget.RadioGroup;
 
@@ -53,6 +54,10 @@ public class MainActivity extends FragmentActivity {
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
         transaction.replace(R.id.frame_layout, workoutstart.newInstance());
         transaction.commit();
+
+    }
+
+}
 
         //Used to select an item programmatically
         //bottomNavigationView.getMenu().getItem(2).setChecked(true);
@@ -107,6 +112,4 @@ public class MainActivity extends FragmentActivity {
             startButton.setEnabled(true);
         }
         */
-    }
 
-}

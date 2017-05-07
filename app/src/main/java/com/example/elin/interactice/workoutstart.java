@@ -26,14 +26,23 @@ public class workoutstart extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
+        View v = inflater.inflate(R.layout.fragment_workoutstart, container, false);
 
+        Button newPage = (Button)v.findViewById(R.id.startbutton);
+        newPage.setOnClickListener(new View.OnClickListener() {
 
-        return inflater.inflate(R.layout.fragment_workoutstart, container, false);
-
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getActivity(), DistanceActivity.class);
+                startActivity(intent);
+            }
+        });
+        return v;
     }
 
 
     public void startWorkout(View view){
 
     }
+
 }

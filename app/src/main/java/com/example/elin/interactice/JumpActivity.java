@@ -1,5 +1,6 @@
 package com.example.elin.interactice;
 
+import android.content.Intent;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
@@ -112,5 +113,11 @@ public class JumpActivity extends AppCompatActivity implements SensorEventListen
     public void onAccuracyChanged(Sensor sensor, int accuracy) {
 
     }
+  /*  public void goToDistance(View view) {
+        // Do something in response to button
+        Intent intent;
+        intent = new Intent(this, DistanceActivity.class);
+        startActivity(intent);
+    }*/
 }
 
