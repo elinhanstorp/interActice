@@ -25,27 +25,13 @@ public class workoutstart extends Fragment {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
-        /*View v = inflater.inflate(R.layout.fragment_workoutstart, container, false);
-
-        Button newPage = (Button)v.findViewById(R.id.startbutton);
-        newPage.setOnClickListener(new View.OnClickListener() {
-
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(getActivity(), DistanceActivity.class);
-                startActivity(intent);
-            }
-        });
-        return v;*/
         View v = inflater.inflate(R.layout.fragment_workoutstart, container, false);
         intent = new Intent(getActivity(), WorkoutActivity.class);
         intent.putExtra("LEVEL", "easy");
-        intent.putExtra("TIME", "15min");
+        intent.putExtra("TIME", "15");
 
-        Button startButton = (Button) v.findViewById(R.id.startbutton);
 
         RadioGroup rgLevel = (RadioGroup) v.findViewById(R.id.LevelGroup);
 
@@ -77,13 +63,13 @@ public class workoutstart extends Fragment {
             public void onCheckedChanged(RadioGroup group, int checkedId) {
                 switch(checkedId){
                     case R.id.radioButton15min:
-                        intent.putExtra("TIME", "15min");
+                        intent.putExtra("TIME", "15");
                         break;
                     case R.id.radioButton30min:
-                        intent.putExtra("TIME", "30min");
+                        intent.putExtra("TIME", "30");
                         break;
                     case R.id.radioButton45min:
-                        intent.putExtra("TIME", "45min");
+                        intent.putExtra("TIME", "45");
                         break;
                 }
             }
