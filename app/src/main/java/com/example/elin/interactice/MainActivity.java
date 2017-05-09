@@ -62,54 +62,5 @@ public class MainActivity extends FragmentActivity {
         //Used to select an item programmatically
         //bottomNavigationView.getMenu().getItem(2).setChecked(true);
 
-        /**
-        final Intent intent = new Intent(this, WorkoutActivity.class);
-        Button startButton = (Button) findViewById(R.id.startbutton);
 
-        RadioGroup rgLevel = (RadioGroup) findViewById(R.id.LevelGroup);
-
-        rgLevel.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener()
-        {
-            @Override
-            public void onCheckedChanged(RadioGroup group, int checkedId) {
-                switch(checkedId){
-                    case R.id.radioButtonEasy:
-                        intent.putExtra("LEVEL", "easy");
-                        break;
-                    case R.id.radioButtonMedium:
-                        intent.putExtra("LEVEL", "medium");
-                        break;
-                    case R.id.radioButtonHard:
-                        intent.putExtra("LEVEL", "hard");
-                        break;
-
-                }
-
-            }
-        });
-
-
-        RadioGroup rgTime = (RadioGroup) findViewById(R.id.TimeGroup);
-
-        rgTime.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener()
-        {
-            public void onCheckedChanged(RadioGroup group, int checkedId) {
-                switch(checkedId){
-                    case R.id.radioButton15min:
-                        intent.putExtra("TIME", "15min");
-                        break;
-                    case R.id.radioButton30min:
-                        intent.putExtra("TIME", "30min");
-                        break;
-                    case R.id.radioButton45min:
-                        intent.putExtra("TIME", "45min");
-                        break;
-                }
-            }
-        });
-
-        if((intent.getStringExtra("LEVEL") !=null) && (intent.getStringExtra("TIME") !=null)){
-            startButton.setEnabled(true);
-        }
-        */
 
