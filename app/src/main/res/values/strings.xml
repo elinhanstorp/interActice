@@ -14,4 +14,6 @@
 
     <string name="nbrJumps">0</string>
     <string name="resetButton">reset</string>
+    <string name="nbrPushUps">0</string>
+
 </resources>

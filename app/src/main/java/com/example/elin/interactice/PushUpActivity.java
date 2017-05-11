@@ -12,10 +12,9 @@ import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
-public class JumpActivity extends AppCompatActivity implements SensorEventListener{
-
-    private TextView nbrJump;
-    private int currentNbrJumps = 0;
+public class PushUpActivity extends AppCompatActivity implements SensorEventListener{
+    private TextView nbrPushUp;
+    private int currentNbrPushUp = 0;
     private boolean currentPosUp = false;
     private Sensor mAccelerator;
     private SensorManager mSensorManager;
@@ -23,10 +22,10 @@ public class JumpActivity extends AppCompatActivity implements SensorEventListen
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_jump);
+        setContentView(R.layout.activity_push_up);
         mSensorManager= (SensorManager)getSystemService(SENSOR_SERVICE);
         mAccelerator=mSensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
-        nbrJump = (TextView) findViewById(R.id.nbrJumps);
+        nbrPushUp = (TextView) findViewById(R.id.nbrPushUps);
         mSensorManager.registerListener(this, mAccelerator, SensorManager.SENSOR_DELAY_NORMAL);
 
     }
@@ -48,8 +47,8 @@ public class JumpActivity extends AppCompatActivity implements SensorEventListen
         } else {
             if (detectUp(accelerationValues)) {
                 currentPosUp = true;
-                currentNbrJumps++;
-                nbrJump.setText(Integer.toString(currentNbrJumps));
+                currentNbrPushUp++;
+                nbrPushUp.setText(Integer.toString(currentNbrPushUp));
             }
         }
     }
@@ -100,8 +99,8 @@ public class JumpActivity extends AppCompatActivity implements SensorEventListen
     }
 
     public void reset(View view) {
-        currentNbrJumps=0;
-        nbrJump.setText(Integer.toString(currentNbrJumps));
+        currentNbrPushUp=0;
+        nbrPushUp.setText(Integer.toString(currentNbrPushUp));
     }
 
     @Override
@@ -114,10 +113,11 @@ public class JumpActivity extends AppCompatActivity implements SensorEventListen
     public void onAccuracyChanged(Sensor sensor, int accuracy) {
 
     }
-   public void goToPushUps(View view) {
+    public void goToDistance(View view) {
         Intent intent;
-        intent = new Intent(this, PushUpActivity.class);
+        intent = new Intent(this, DistanceActivity.class);
         startActivity(intent);
     }
-}
 
+
+}
