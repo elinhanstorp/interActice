@@ -6,6 +6,7 @@ import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
+import android.os.CountDownTimer;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -17,6 +18,9 @@ public class DistanceActivity extends AppCompatActivity implements SensorEventLi
     private TextView meter;
     boolean activityRunning;
     private int initCountValue = 0;
+    public int meters;
+    public long startTime;
+    public long endTime;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -25,6 +29,10 @@ public class DistanceActivity extends AppCompatActivity implements SensorEventLi
 
         meter = (TextView) findViewById(R.id.meters);
         sensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
+
+        meters = getIntent().getIntExtra("DISTANCE", 0);
+        startTime = System.currentTimeMillis();
+
     }
 
     @Override
@@ -55,12 +63,16 @@ public class DistanceActivity extends AppCompatActivity implements SensorEventLi
 
             //Since it will return the total number since we registered, we need to subtract the initial amount of steps
             int steps = ((int)event.values[0]) - initCountValue;
-            int meters = 20;
             double remaining = meters - steps*0.74;
 
 
             if(remaining <= 0){
                 meter.setText("Well done!");
+                endTime = System.currentTimeMillis();
+                Intent intent = new Intent();
+                intent.putExtra("TIMELEFT", endTime - startTime);
+                setResult(RESULT_OK, intent);
+                finish();
             }else{
                 meter.setText("Number of meters left:  " + String.valueOf((int)remaining));
             }
