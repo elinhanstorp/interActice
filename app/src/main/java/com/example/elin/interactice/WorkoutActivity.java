@@ -49,7 +49,7 @@ public class WorkoutActivity extends AppCompatActivity {
     }
 
     public void workoutHandler(long time){
-        //while (time > 0) {
+        if (time > 0) {
             Intent intent = new Intent(this, DistanceActivity.class);
             intent.putExtra("TIMELEFT", workoutTime);
 
@@ -57,7 +57,7 @@ public class WorkoutActivity extends AppCompatActivity {
             intent.putExtra("DISTANCE", distance);
 
             startActivityForResult(intent, REQUEST_CODE);
-        //}
+        }
 
     }
 
