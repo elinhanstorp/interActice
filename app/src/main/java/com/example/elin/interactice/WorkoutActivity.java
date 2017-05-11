@@ -11,7 +11,6 @@ import android.widget.TextView;
 public class WorkoutActivity extends AppCompatActivity {
     public String level;
     public long workoutTime;
-    public long startTime;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -21,7 +20,6 @@ public class WorkoutActivity extends AppCompatActivity {
         Intent intent = getIntent();
         level = intent.getStringExtra("LEVEL");
         workoutTime = Long.valueOf(intent.getStringExtra("TIME"));
-        startTime = System.currentTimeMillis();
 
 
         TextView levelField =  (TextView)findViewById(R.id.level);
@@ -47,8 +45,8 @@ public class WorkoutActivity extends AppCompatActivity {
     }
 
     public void workoutHandler(){
-        //while(((startTime + (workoutTime*60000))  - System.currentTimeMillis()) > 0){
             Intent intent = new Intent(this, DistanceActivity.class);
+            intent.putExtra("TIMELEFT", workoutTime*1000*60);
             startActivity(intent);
         //}
 
