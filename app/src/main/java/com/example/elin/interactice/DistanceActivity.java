@@ -69,10 +69,11 @@ public class DistanceActivity extends AppCompatActivity implements SensorEventLi
             if(remaining <= 0){
                 meter.setText("Well done!");
                 endTime = System.currentTimeMillis();
-                Intent intent = new Intent();
+                meter.setText(Long.toString(endTime - startTime));
+                /*Intent intent = new Intent();
                 intent.putExtra("TIMELEFT", endTime - startTime);
                 setResult(RESULT_OK, intent);
-                finish();
+                finish();*/
             }else{
                 meter.setText("Number of meters left:  " + String.valueOf((int)remaining));
             }
