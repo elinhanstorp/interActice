@@ -14,7 +14,6 @@
         android:layout_height="match_parent"
         android:layout_above="@+id/navigation"
         android:animateLayoutChanges="true">
-
     </FrameLayout>
 
     <android.support.design.widget.BottomNavigationView
@@ -22,7 +21,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:background="@color/colorwhite"
+        android:background="@color/colorWhite"
 
         app:menu="@menu/bottom_nav_items"/>
 </RelativeLayout>
