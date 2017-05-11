@@ -42,7 +42,7 @@ public class WorkoutActivity extends AppCompatActivity {
                 workoutHandler();
             }
         }.start();
-
+      /*hej*/
 
     }
 
