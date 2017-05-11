@@ -31,7 +31,7 @@ public class WorkoutActivity extends AppCompatActivity {
         levelField.setText("Level: " + level);
         timeField.setText("Time: " + workoutTime + " min");
 
-        new CountDownTimer(10000, 1000) {
+        new CountDownTimer(1000, 1000) {
 
             public void onTick(long millisUntilFinished) {
                 counterField.setText("" + millisUntilFinished / 1000);

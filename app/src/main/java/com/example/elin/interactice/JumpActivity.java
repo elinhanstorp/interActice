@@ -23,11 +23,12 @@ public class JumpActivity extends AppCompatActivity implements SensorEventListen
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_jump);
         mSensorManager= (SensorManager)getSystemService(SENSOR_SERVICE);
         mAccelerator=mSensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
         nbrJump = (TextView) findViewById(R.id.nbrJumps);
         mSensorManager.registerListener(this, mAccelerator, SensorManager.SENSOR_DELAY_NORMAL);
+
     }
 
     @Override
@@ -113,11 +114,10 @@ public class JumpActivity extends AppCompatActivity implements SensorEventListen
     public void onAccuracyChanged(Sensor sensor, int accuracy) {
 
     }
-  /*  public void goToDistance(View view) {
-        // Do something in response to button
+   public void goToDistance(View view) {
         Intent intent;
         intent = new Intent(this, DistanceActivity.class);
         startActivity(intent);
-    }*/
+    }
 }
 

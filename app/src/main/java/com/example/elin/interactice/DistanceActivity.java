@@ -71,10 +71,11 @@ public class DistanceActivity extends AppCompatActivity implements SensorEventLi
     @Override
     public void onAccuracyChanged(Sensor sensor, int accuracy) {
     }
-    /*public void goToJump(View view) {
+
+    public void goToJump(View view) {
         Intent intent;
         intent = new Intent(this, JumpActivity.class);
         startActivity(intent);
-    }*/
+    }
 
 }
