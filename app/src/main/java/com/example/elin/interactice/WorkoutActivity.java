@@ -53,6 +53,7 @@ public class WorkoutActivity extends AppCompatActivity {
     public void workoutHandler(long time){
         if (time > 0) {
             if (timeToRun) {
+                timeToRun = false;
                 Intent intent = new Intent(this, DistanceActivity.class);
 
                 int distance = (int) (30 + Math.random() * 70);
@@ -60,6 +61,7 @@ public class WorkoutActivity extends AppCompatActivity {
 
                 startActivityForResult(intent, REQUEST_CODE);
             } else {
+                timeToRun = true;
                 Intent intent = new Intent(this, JumpActivity.class);
 
                 int nbrOfJumps = 10;

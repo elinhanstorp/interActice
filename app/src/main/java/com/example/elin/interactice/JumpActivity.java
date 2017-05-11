@@ -19,6 +19,9 @@ public class JumpActivity extends AppCompatActivity implements SensorEventListen
     private boolean currentPosUp = false;
     private Sensor mAccelerator;
     private SensorManager mSensorManager;
+    private int jumps;
+    private long startTime;
+    private long endTime;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,6 +31,9 @@ public class JumpActivity extends AppCompatActivity implements SensorEventListen
         mAccelerator=mSensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
         nbrJump = (TextView) findViewById(R.id.nbrJumps);
         mSensorManager.registerListener(this, mAccelerator, SensorManager.SENSOR_DELAY_NORMAL);
+
+        startTime = System.currentTimeMillis();
+        jumps = getIntent().getIntExtra("JUMPS", 0);
     }
 
     @Override
@@ -46,9 +52,17 @@ public class JumpActivity extends AppCompatActivity implements SensorEventListen
             }
         } else {
             if (detectUp(accelerationValues)) {
-                currentPosUp = true;
-                currentNbrJumps++;
-                nbrJump.setText(Integer.toString(currentNbrJumps));
+                if (currentNbrJumps < jumps) {
+                    currentPosUp = true;
+                    currentNbrJumps++;
+                    nbrJump.setText(Integer.toString(currentNbrJumps));
+
+                    endTime = System.currentTimeMillis();
+                    Intent intent = new Intent();
+                    intent.putExtra("TIMELEFT", endTime - startTime);
+                    setResult(RESULT_OK, intent);
+                    finish();
+                }
             }
         }
     }
