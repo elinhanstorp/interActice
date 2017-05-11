@@ -12,6 +12,7 @@ public class WorkoutActivity extends AppCompatActivity {
     public String level;
     public long workoutTime;
     public final int REQUEST_CODE = 1;
+    public boolean timeToRun = true;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,21 +52,31 @@ public class WorkoutActivity extends AppCompatActivity {
 
     public void workoutHandler(long time){
         if (time > 0) {
-            Intent intent = new Intent(this, DistanceActivity.class);
+            if (timeToRun) {
+                Intent intent = new Intent(this, DistanceActivity.class);
 
-            int distance = 30 + (int) Math.random() * 70;
-            intent.putExtra("DISTANCE", distance);
+                int distance = (int) (30 + Math.random() * 70);
+                intent.putExtra("DISTANCE", distance);
 
-            startActivityForResult(intent, REQUEST_CODE);
+                startActivityForResult(intent, REQUEST_CODE);
+            } else {
+                Intent intent = new Intent(this, JumpActivity.class);
+
+                int nbrOfJumps = 10;
+                intent.putExtra("JUMPS", nbrOfJumps);
+            }
         }
-
+        else {
+            Intent intent = new Intent(this, FinishedActivity.class);
+            startActivity(intent);
+        }
     }
 
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == REQUEST_CODE) {
             if(resultCode == RESULT_OK) {
-                workoutTime -= data.getIntExtra("TIMELEFT", 0);
+                workoutTime -= data.getLongExtra("TIMELEFT", 0);
             }
         }
         workoutHandler(workoutTime);
