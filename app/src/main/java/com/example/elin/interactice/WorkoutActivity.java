@@ -73,7 +73,7 @@ public class WorkoutActivity extends AppCompatActivity {
                 } else {
                     activityIndex = 0;
                     Intent intent = new Intent(this, PushUpActivity.class);
-                    intent.putExtra("JUMPS", nbrOfReps);
+                    intent.putExtra("REPS", nbrOfReps);
                     startActivityForResult(intent, REQUEST_CODE);
                 }
             }

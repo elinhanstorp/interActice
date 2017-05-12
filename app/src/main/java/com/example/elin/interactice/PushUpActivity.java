@@ -20,6 +20,9 @@ public class PushUpActivity extends AppCompatActivity implements SensorEventList
     private Sensor mAccelerator;
     private SensorManager mSensorManager;
     private MediaPlayer gb;
+    private int nbrOfReps;
+    private long startTime;
+    private long endTime;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,6 +33,9 @@ public class PushUpActivity extends AppCompatActivity implements SensorEventList
         mAccelerator=mSensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
         nbrPushUp = (TextView) findViewById(R.id.nbrPushUps);
         mSensorManager.registerListener(this, mAccelerator, SensorManager.SENSOR_DELAY_NORMAL);
+
+        startTime = System.currentTimeMillis();
+        nbrOfReps = getIntent().getIntExtra("REPS", 0);
 
     }
 
@@ -50,8 +56,13 @@ public class PushUpActivity extends AppCompatActivity implements SensorEventList
         } else {
             if (detectUp(accelerationValues)) {
                 currentPosUp = true;
-                if (currentNbrPushUp == 9) {
+                if (currentNbrPushUp == nbrOfReps) {
                     gb.start();
+                    endTime = System.currentTimeMillis();
+                    Intent intent = new Intent();
+                    intent.putExtra("TIMELEFT", endTime - startTime);
+                    setResult(RESULT_OK, intent);
+                    finish();
                 }
                 currentNbrPushUp++;
                 nbrPushUp.setText(Integer.toString(currentNbrPushUp));
