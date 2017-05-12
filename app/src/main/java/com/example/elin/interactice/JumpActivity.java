@@ -1,9 +1,11 @@
 package com.example.elin.interactice;
 
+import android.content.Intent;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
@@ -29,11 +31,14 @@ public class JumpActivity extends AppCompatActivity implements SensorEventListen
     private SensorManager mSensorManager;
     private float[] gravityValues = new float[3];
     private float[] magneticValues = new float[3];
+    private MediaPlayer gb;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_jump);
+
+        gb = MediaPlayer.create(this, R.raw.goodjob4);
 
         mSensorManager= (SensorManager)getSystemService(SENSOR_SERVICE);
 
@@ -114,12 +119,17 @@ public class JumpActivity extends AppCompatActivity implements SensorEventListen
             } else {
                 if (detectUp(deviceRelativeAcceleration)) {
                     currentPosUp = true;
+                    if (currentNbrJumps == 9) {
+                        nbrJump.setText("Good job");
+                        gb.start();
+                    }
                     currentNbrJumps++;
                     nbrJump.setText(Integer.toString(currentNbrJumps));
                 }
             }
         }
     }
+
 
     private boolean detectDown(float[] values) {
         if(values[2]>17) {
@@ -161,5 +171,11 @@ public class JumpActivity extends AppCompatActivity implements SensorEventListen
     @Override
     public void onAccuracyChanged(Sensor sensor, int accuracy) {
 
+    }
+
+   public void goToPushUps(View view) {
+        Intent intent;
+        intent = new Intent(this, PushUpActivity.class);
+        startActivity(intent);
     }
 }
