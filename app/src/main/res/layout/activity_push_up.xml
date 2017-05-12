@@ -4,21 +4,21 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.example.elin.interactice.JumpActivity">
+    tools:context="com.example.elin.interactice.PushUpActivity">
 
 
     <TextView
-        android:id="@+id/nbrJumps"
+        android:id="@+id/nbrPushUps"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/nbrJumps"
+        android:text="@string/nbrPushUps"
         android:textSize="150sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintHorizontal_bias="0.501"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        tools:text="@string/nbrJumps" />
+        tools:text="@string/nbrPushUps" />
 
     <TextView
         android:id="@+id/textView"
@@ -28,7 +28,7 @@
         android:layout_marginLeft="8dp"
         android:layout_marginRight="8dp"
         android:layout_marginTop="8dp"
-        android:text="Number of Jumps left:"
+        android:text="Number of Push Up's left:"
         android:textAlignment="center"
         android:textSize="30sp"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -53,7 +53,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/nbrJumps"
+        app:layout_constraintTop_toBottomOf="@+id/nbrPushUps"
         app:layout_constraintVertical_bias="0.205" />
 
     <TextView
@@ -63,7 +63,7 @@
         android:layout_marginLeft="8dp"
         android:layout_marginRight="8dp"
         android:layout_marginTop="8dp"
-        android:text="Do 10 jumps!"
+        android:text="Do 10 Push Up's!"
         android:textAlignment="center"
         android:textSize="40sp"
         app:layout_constraintLeft_toLeftOf="parent"
@@ -77,10 +77,11 @@
         android:layout_marginBottom="16dp"
         android:layout_marginLeft="280dp"
         android:layout_marginRight="8dp"
-        android:onClick="goToPushUps"
+        android:onClick="goToDistance"
         android:text="Next"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent" />
+
 </android.support.constraint.ConstraintLayout>
