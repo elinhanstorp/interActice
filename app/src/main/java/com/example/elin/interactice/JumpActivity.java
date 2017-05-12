@@ -5,6 +5,7 @@ import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
+import android.media.MediaPlayer;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -19,11 +20,14 @@ public class JumpActivity extends AppCompatActivity implements SensorEventListen
     private boolean currentPosUp = false;
     private Sensor mAccelerator;
     private SensorManager mSensorManager;
+    private MediaPlayer gb;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_jump);
+        gb = MediaPlayer.create(this, R.raw.goodjob4);
+
         mSensorManager= (SensorManager)getSystemService(SENSOR_SERVICE);
         mAccelerator=mSensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
         nbrJump = (TextView) findViewById(R.id.nbrJumps);
@@ -33,10 +37,10 @@ public class JumpActivity extends AppCompatActivity implements SensorEventListen
 
     @Override
     public void onSensorChanged(SensorEvent event) {
-        float[] accelerationValues= getValues(event);
+        float[] accelerationValues = getValues(event);
 
-        for(int i=0; i<accelerationValues.length; i++){
-            if(i==1) {
+        for (int i = 0; i < accelerationValues.length; i++) {
+            if (i == 1) {
                 Log.d(Integer.toString(i), Float.toString(accelerationValues[i]));
             }
         }
@@ -48,11 +52,16 @@ public class JumpActivity extends AppCompatActivity implements SensorEventListen
         } else {
             if (detectUp(accelerationValues)) {
                 currentPosUp = true;
-                currentNbrJumps++;
-                nbrJump.setText(Integer.toString(currentNbrJumps));
-            }
+                if (currentNbrJumps == 9) {
+                    nbrJump.setText("Good job");
+                    gb.start();
+                }
+                    currentNbrJumps++;
+                    nbrJump.setText(Integer.toString(currentNbrJumps));
+        }
         }
     }
+
 
     private boolean detectDown(float[] values) {
         if(values[1]>4) {
