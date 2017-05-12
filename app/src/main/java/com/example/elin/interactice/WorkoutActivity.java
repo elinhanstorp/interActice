@@ -11,7 +11,10 @@ import android.widget.TextView;
 public class WorkoutActivity extends AppCompatActivity {
     public String level;
     public long workoutTime;
-    public long startTime;
+    public final int REQUEST_CODE = 1;
+    public boolean timeToRun = true;
+    private int nbrOfReps = 5;
+    private int activityIndex = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -21,7 +24,6 @@ public class WorkoutActivity extends AppCompatActivity {
         Intent intent = getIntent();
         level = intent.getStringExtra("LEVEL");
         workoutTime = Long.valueOf(intent.getStringExtra("TIME"));
-        startTime = System.currentTimeMillis();
 
 
         TextView levelField =  (TextView)findViewById(R.id.level);
@@ -31,7 +33,11 @@ public class WorkoutActivity extends AppCompatActivity {
         levelField.setText("Level: " + level);
         timeField.setText("Time: " + workoutTime + " min");
 
-        new CountDownTimer(1000, 1000) {
+        //converting to millisec from min
+        //workoutTime = workoutTime*1000*60;
+        workoutTime = 60*1000*3;
+
+        new CountDownTimer(10000, 1000) {
 
             public void onTick(long millisUntilFinished) {
                 counterField.setText("" + millisUntilFinished / 1000);
@@ -39,19 +45,55 @@ public class WorkoutActivity extends AppCompatActivity {
 
             public void onFinish() {
                 counterField.setText("Starting!");
-                workoutHandler();
+                workoutHandler(workoutTime);
             }
         }.start();
-      /*hej*/
+
 
     }
 
-    public void workoutHandler(){
-        //while(((startTime + (workoutTime*60000))  - System.currentTimeMillis()) > 0){
-            Intent intent = new Intent(this, DistanceActivity.class);
-            startActivity(intent);
-        //}
+    public void workoutHandler(long time){
+        if (time > 0) {
+            if (timeToRun) {
+                timeToRun = false;
+                Intent intent = new Intent(this, DistanceActivity.class);
 
+                int distance = (int) (30 + Math.random() * 70);
+                intent.putExtra("DISTANCE", distance);
+
+                startActivityForResult(intent, REQUEST_CODE);
+            } else {
+                timeToRun = true;
+
+                if(activityIndex == 0){
+                    activityIndex = 1;
+                    Intent intent = new Intent(this, JumpActivity.class);
+                    intent.putExtra("JUMPS", nbrOfReps);
+                    startActivityForResult(intent, REQUEST_CODE);
+                } else {
+                    activityIndex = 0;
+                    Intent intent = new Intent(this, PushUpActivity.class);
+                    intent.putExtra("JUMPS", nbrOfReps);
+                    startActivityForResult(intent, REQUEST_CODE);
+                }
+            }
+        }
+        else {
+            Intent intent = new Intent(this, FinishedActivity.class);
+            intent.putExtra("LEVEL", level);
+            intent.putExtra("TIME", workoutTime);
+            startActivity(intent);
+        }
+    }
+
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == REQUEST_CODE) {
+            if(resultCode == RESULT_OK) {
+                workoutTime -= data.getLongExtra("TIMELEFT", 0);
+            }
+        }
+        workoutHandler(workoutTime);
     }
 
 }
