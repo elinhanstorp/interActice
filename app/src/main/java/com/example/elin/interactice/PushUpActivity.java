@@ -5,6 +5,7 @@ import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
+import android.media.MediaPlayer;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -18,11 +19,13 @@ public class PushUpActivity extends AppCompatActivity implements SensorEventList
     private boolean currentPosUp = false;
     private Sensor mAccelerator;
     private SensorManager mSensorManager;
+    private MediaPlayer gb;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_push_up);
+        gb = MediaPlayer.create(this, R.raw.goodjob4);
         mSensorManager= (SensorManager)getSystemService(SENSOR_SERVICE);
         mAccelerator=mSensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
         nbrPushUp = (TextView) findViewById(R.id.nbrPushUps);
@@ -47,6 +50,9 @@ public class PushUpActivity extends AppCompatActivity implements SensorEventList
         } else {
             if (detectUp(accelerationValues)) {
                 currentPosUp = true;
+                if (currentNbrPushUp == 9) {
+                    gb.start();
+                }
                 currentNbrPushUp++;
                 nbrPushUp.setText(Integer.toString(currentNbrPushUp));
             }
