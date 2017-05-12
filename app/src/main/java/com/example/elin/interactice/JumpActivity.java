@@ -26,7 +26,7 @@ public class JumpActivity extends AppCompatActivity implements SensorEventListen
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_jump);
         mSensorManager= (SensorManager)getSystemService(SENSOR_SERVICE);
         mAccelerator=mSensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
         nbrJump = (TextView) findViewById(R.id.nbrJumps);
@@ -34,6 +34,7 @@ public class JumpActivity extends AppCompatActivity implements SensorEventListen
 
         startTime = System.currentTimeMillis();
         jumps = getIntent().getIntExtra("JUMPS", 0);
+
     }
 
     @Override
@@ -52,11 +53,11 @@ public class JumpActivity extends AppCompatActivity implements SensorEventListen
             }
         } else {
             if (detectUp(accelerationValues)) {
-                if (currentNbrJumps < jumps) {
-                    currentPosUp = true;
-                    currentNbrJumps++;
-                    nbrJump.setText(Integer.toString(currentNbrJumps));
-
+                if(currentNbrJumps < jumps){
+                currentPosUp = true;
+                currentNbrJumps++;
+                nbrJump.setText(Integer.toString(currentNbrJumps));
+                } else {
                     endTime = System.currentTimeMillis();
                     Intent intent = new Intent();
                     intent.putExtra("TIMELEFT", endTime - startTime);
@@ -127,11 +128,11 @@ public class JumpActivity extends AppCompatActivity implements SensorEventListen
     public void onAccuracyChanged(Sensor sensor, int accuracy) {
 
     }
-  /*  public void goToDistance(View view) {
-        // Do something in response to button
+    public void goToPushUps(View view) {
+        /*
         Intent intent;
-        intent = new Intent(this, DistanceActivity.class);
+        intent = new Intent(this, PushUpActivity.class);
         startActivity(intent);
-    }*/
+        */
+    }
 }
-

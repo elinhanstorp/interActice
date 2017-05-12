@@ -13,6 +13,8 @@ public class WorkoutActivity extends AppCompatActivity {
     public long workoutTime;
     public final int REQUEST_CODE = 1;
     public boolean timeToRun = true;
+    private int nbrOfReps = 5;
+    private int activityIndex = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,14 +64,24 @@ public class WorkoutActivity extends AppCompatActivity {
                 startActivityForResult(intent, REQUEST_CODE);
             } else {
                 timeToRun = true;
-                Intent intent = new Intent(this, JumpActivity.class);
 
-                int nbrOfJumps = 10;
-                intent.putExtra("JUMPS", nbrOfJumps);
+                if(activityIndex == 0){
+                    activityIndex = 1;
+                    Intent intent = new Intent(this, JumpActivity.class);
+                    intent.putExtra("JUMPS", nbrOfReps);
+                    startActivityForResult(intent, REQUEST_CODE);
+                } else {
+                    activityIndex = 0;
+                    Intent intent = new Intent(this, PushUpActivity.class);
+                    intent.putExtra("JUMPS", nbrOfReps);
+                    startActivityForResult(intent, REQUEST_CODE);
+                }
             }
         }
         else {
             Intent intent = new Intent(this, FinishedActivity.class);
+            intent.putExtra("LEVEL", level);
+            intent.putExtra("TIME", workoutTime);
             startActivity(intent);
         }
     }
