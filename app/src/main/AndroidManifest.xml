@@ -19,7 +19,8 @@
         <activity android:name=".WorkoutActivity" />
         <activity android:name=".DistanceActivity" />
         <activity android:name=".JumpActivity" />
-        <activity android:name=".PushUpActivity"></activity>
+        <activity android:name=".PushUpActivity"/>
+        <activity android:name=".FinishedActivity"/>
     </application>
 
 </manifest>

@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.CountDownTimer;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.RadioGroup;
 import android.widget.TextView;
@@ -35,7 +36,7 @@ public class WorkoutActivity extends AppCompatActivity {
 
         //converting to millisec from min
         //workoutTime = workoutTime*1000*60;
-        workoutTime = 60*1000*3;
+        workoutTime = 30*1000*1;
 
         new CountDownTimer(10000, 1000) {
 
@@ -58,7 +59,8 @@ public class WorkoutActivity extends AppCompatActivity {
                 timeToRun = false;
                 Intent intent = new Intent(this, DistanceActivity.class);
 
-                int distance = (int) (30 + Math.random() * 70);
+                int distance = 10;
+                //int distance = (int) (30 + Math.random() * 70);
                 intent.putExtra("DISTANCE", distance);
 
                 startActivityForResult(intent, REQUEST_CODE);
@@ -91,6 +93,7 @@ public class WorkoutActivity extends AppCompatActivity {
         if (requestCode == REQUEST_CODE) {
             if(resultCode == RESULT_OK) {
                 workoutTime -= data.getLongExtra("TIMELEFT", 0);
+                Log.wtf("print",Long.toString(workoutTime));
             }
         }
         workoutHandler(workoutTime);
