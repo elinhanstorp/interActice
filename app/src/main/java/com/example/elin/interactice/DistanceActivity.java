@@ -84,10 +84,12 @@ public class DistanceActivity extends AppCompatActivity implements SensorEventLi
     public void onAccuracyChanged(Sensor sensor, int accuracy) {
     }
 
-    public void goToJump(View view) {
-        Intent intent;
-        intent = new Intent(this, JumpActivity.class);
-        startActivity(intent);
+    public void nextActivity(View view) {
+        endTime = System.currentTimeMillis();
+        Intent intent = new Intent();
+        intent.putExtra("TIMELEFT", endTime - startTime);
+        setResult(RESULT_OK, intent);
+        finish();
     }
 
 }

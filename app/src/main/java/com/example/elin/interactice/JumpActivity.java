@@ -127,11 +127,12 @@ public class JumpActivity extends AppCompatActivity implements SensorEventListen
     public void onAccuracyChanged(Sensor sensor, int accuracy) {
 
     }
-  /*  public void goToDistance(View view) {
-        // Do something in response to button
-        Intent intent;
-        intent = new Intent(this, DistanceActivity.class);
-        startActivity(intent);
-    }*/
+    public void nextActivity(View view) {
+        endTime = System.currentTimeMillis();
+        Intent intent = new Intent();
+        intent.putExtra("TIMELEFT", endTime - startTime);
+        setResult(RESULT_OK, intent);
+        finish();
+    }
 }
 

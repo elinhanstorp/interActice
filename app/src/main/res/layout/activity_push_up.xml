@@ -77,7 +77,7 @@
         android:layout_marginBottom="16dp"
         android:layout_marginLeft="280dp"
         android:layout_marginRight="8dp"
-        android:onClick="goToDistance"
+        android:onClick="nextActivity"
         android:text="Next"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
