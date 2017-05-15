@@ -50,7 +50,7 @@ public class WorkoutActivity extends AppCompatActivity {
 
         //converting to millisec from min
         //workoutTime = workoutTime*1000*60;
-        workoutTime = 2*1000*60;
+        workoutTime = 3*1000*60;
         totalWorkoutTime = workoutTime;
 
         new CountDownTimer(10000, 1000) {
@@ -74,8 +74,8 @@ public class WorkoutActivity extends AppCompatActivity {
                 timeToRun = false;
                 Intent intent = new Intent(this, DistanceActivity.class);
 
-                //int distance = 10;
-                int distance = (int) (30 + Math.random() * 70);
+                int distance = 20;
+                //int distance = (int) (30 + Math.random() * 70);
                 intent.putExtra("DISTANCE", distance);
 
                 startActivityForResult(intent, REQUEST_CODE);
