@@ -1,6 +1,7 @@
 package com.example.elin.interactice;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
@@ -8,6 +9,7 @@ import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.media.MediaPlayer;
 import android.os.CountDownTimer;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -98,6 +100,28 @@ public class DistanceActivity extends AppCompatActivity implements SensorEventLi
         intent.putExtra("TIMELEFT", endTime - startTime);
         setResult(RESULT_OK, intent);
         finish();
+    }
+
+
+    @Override
+    public void onBackPressed() {
+        String msg = "Are you sure you want to end this workout?";
+        new AlertDialog.Builder(this)
+                .setIcon(android.R.drawable.ic_dialog_alert)
+                .setTitle("Closing Activity")
+                .setMessage(msg)
+                        .setPositiveButton("Yes", new DialogInterface.OnClickListener()
+                        {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                Intent intent = new Intent(DistanceActivity.this, MainActivity.class);
+                                startActivity(intent);
+
+                            }
+
+                        })
+                        .setNegativeButton("No", null)
+                        .show();
     }
 
 }
