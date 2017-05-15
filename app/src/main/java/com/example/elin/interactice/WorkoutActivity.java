@@ -18,6 +18,7 @@ public class WorkoutActivity extends AppCompatActivity {
     private int nbrOfReps = 10;
     private int activityIndex = 0;
     private MediaPlayer newworkout;
+    private long totalWorkoutTime;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,7 +42,8 @@ public class WorkoutActivity extends AppCompatActivity {
 
         //converting to millisec from min
         //workoutTime = workoutTime*1000*60;
-        workoutTime = 30*1000*1;
+        workoutTime = 15*1000*1;
+        totalWorkoutTime = workoutTime;
 
         new CountDownTimer(10000, 1000) {
 
@@ -86,9 +88,9 @@ public class WorkoutActivity extends AppCompatActivity {
             }
         }
         else {
-            Intent intent = new Intent(this, FinishedActivity.class);
+            Intent intent = new Intent(this, FinishActivity.class);
             intent.putExtra("LEVEL", level);
-            intent.putExtra("TIME", workoutTime);
+            intent.putExtra("TIME", totalWorkoutTime);
             startActivity(intent);
         }
     }

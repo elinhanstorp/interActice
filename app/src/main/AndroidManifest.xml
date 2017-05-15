@@ -17,31 +17,28 @@
             </intent-filter>
         </activity>
         <activity android:name=".WorkoutActivity" />
-
-        <activity android:name=".DistanceActivity"
-            android:parentActivityName=".WorkoutActivity">
-        <meta-data
-            android:name="android.support.PARENT_ACTIVITY"
-            android:value=".WorkoutActivity" /></activity>
-
-        <activity android:name=".JumpActivity"
-        android:parentActivityName=".WorkoutActivity">
-        <meta-data
-            android:name="android.support.PARENT_ACTIVITY"
-            android:value=".WorkoutActivity" /></activity>
-
-        <activity android:name=".PushUpActivity"
-        android:parentActivityName=".WorkoutActivity">
-        <meta-data
-            android:name="android.support.PARENT_ACTIVITY"
-            android:value=".WorkoutActivity" /></activity>
-
-        <activity android:name=".FinishedActivity"
+        <activity
+            android:name=".DistanceActivity"
             android:parentActivityName=".WorkoutActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".WorkoutActivity" /></activity>
+                android:value=".WorkoutActivity" />
+        </activity>
+        <activity
+            android:name=".JumpActivity"
+            android:parentActivityName=".WorkoutActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".WorkoutActivity" />
+        </activity>
+        <activity
+            android:name=".PushUpActivity"
+            android:parentActivityName=".WorkoutActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".WorkoutActivity" />
+        </activity>
+        <activity android:name=".FinishActivity"></activity>
     </application>
 
 </manifest>
-
