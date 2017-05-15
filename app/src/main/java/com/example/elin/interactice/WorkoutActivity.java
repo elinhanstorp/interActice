@@ -74,8 +74,8 @@ public class WorkoutActivity extends AppCompatActivity {
                 timeToRun = false;
                 Intent intent = new Intent(this, DistanceActivity.class);
 
-                int distance = 10;
-                //int distance = (int) (30 + Math.random() * 70);
+                //int distance = 10;
+                int distance = (int) (30 + Math.random() * 70);
                 intent.putExtra("DISTANCE", distance);
 
                 startActivityForResult(intent, REQUEST_CODE);
