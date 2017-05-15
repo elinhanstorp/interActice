@@ -42,7 +42,7 @@ public class WorkoutActivity extends AppCompatActivity {
 
         //converting to millisec from min
         //workoutTime = workoutTime*1000*60;
-        workoutTime = 15*1000*1;
+        workoutTime = 2*1000*60;
         totalWorkoutTime = workoutTime;
 
         new CountDownTimer(10000, 1000) {
