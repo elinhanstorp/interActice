@@ -7,6 +7,8 @@ import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.media.MediaPlayer;
+import android.os.Handler;
+import android.os.Looper;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -88,7 +90,13 @@ public class PushUpActivity extends AppCompatActivity implements SensorEventList
                         Intent intent = new Intent();
                         intent.putExtra("TIMELEFT", endTime - startTime);
                         setResult(RESULT_OK, intent);
-                        finish();
+
+                        new Handler(Looper.getMainLooper()).postDelayed(new Runnable() {
+                            @Override
+                            public void run() {
+                                finish();
+                            }
+                        }, 3000);
                     }
                 }
             }
