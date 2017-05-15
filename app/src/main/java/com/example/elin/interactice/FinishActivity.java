@@ -3,21 +3,21 @@ package com.example.elin.interactice;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.TextView;
 
-public class FinishedActivity extends AppCompatActivity {
-
+public class FinishActivity extends AppCompatActivity {
     public String level;
-    public long workoutTime;
+    public Long workoutTime;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_finished);
+        setContentView(R.layout.activity_finish);
 
         Intent intent = getIntent();
         level = intent.getStringExtra("LEVEL");
-        workoutTime = Long.valueOf(intent.getStringExtra("TIME"));
+        workoutTime = intent.getLongExtra("TIME", 0)/1000;
 
 
         TextView levelField =  (TextView)findViewById(R.id.level);
@@ -25,5 +25,10 @@ public class FinishedActivity extends AppCompatActivity {
 
         levelField.setText("Level: " + level);
         timeField.setText("Time: " + workoutTime + " min");
+    }
+
+    public void exit(View view){
+        Intent intent = new Intent(this, MainActivity.class);
+        startActivity(intent);
     }
 }

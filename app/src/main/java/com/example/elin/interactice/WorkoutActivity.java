@@ -7,6 +7,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 
@@ -18,11 +19,19 @@ public class WorkoutActivity extends AppCompatActivity {
     private int nbrOfReps = 10;
     private int activityIndex = 0;
     private MediaPlayer newworkout;
+    private long totalWorkoutTime;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_workout);
+
+        final Button button = (Button) findViewById(R.id.startButton);
+        button.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                workoutHandler(workoutTime);
+            }
+        });
 
         newworkout=MediaPlayer.create(this, R.raw.newworkout);
 
@@ -41,7 +50,8 @@ public class WorkoutActivity extends AppCompatActivity {
 
         //converting to millisec from min
         //workoutTime = workoutTime*1000*60;
-        workoutTime = 30*1000*1;
+        workoutTime = 2*1000*60;
+        totalWorkoutTime = workoutTime;
 
         new CountDownTimer(10000, 1000) {
 
@@ -86,9 +96,9 @@ public class WorkoutActivity extends AppCompatActivity {
             }
         }
         else {
-            Intent intent = new Intent(this, FinishedActivity.class);
+            Intent intent = new Intent(this, FinishActivity.class);
             intent.putExtra("LEVEL", level);
-            intent.putExtra("TIME", workoutTime);
+            intent.putExtra("TIME", totalWorkoutTime);
             startActivity(intent);
         }
     }

@@ -15,12 +15,13 @@
         android:layout_marginRight="0dp"
         android:layout_marginTop="0dp"
         android:text="TextView"
+        android:textAlignment="center"
         android:textSize="40sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.84" />
+        app:layout_constraintVertical_bias="0.764" />
 
     <TextView
         android:id="@+id/textView4"
@@ -31,7 +32,8 @@
         android:layout_marginRight="0dp"
         android:layout_marginTop="0dp"
         android:text="Put your phone in its case!"
-        android:textSize="18sp"
+        android:textAlignment="center"
+        android:textSize="24sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
@@ -47,7 +49,7 @@
         android:layout_marginRight="0dp"
         android:layout_marginTop="0dp"
         android:text="Your workout"
-        android:textSize="18sp"
+        android:textSize="20sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
@@ -63,6 +65,7 @@
         android:layout_marginRight="0dp"
         android:layout_marginTop="0dp"
         android:text="Level:"
+        android:textSize="20sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
@@ -78,6 +81,7 @@
         android:layout_marginRight="0dp"
         android:layout_marginTop="0dp"
         android:text="Time:"
+        android:textSize="20sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintHorizontal_bias="0.501"
         app:layout_constraintLeft_toLeftOf="parent"
@@ -94,10 +98,26 @@
         android:layout_marginRight="0dp"
         android:layout_marginTop="0dp"
         android:text="Starts in:"
-        android:textSize="18sp"
+        android:textSize="20sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.556" />
+
+    <Button
+        android:id="@+id/startButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="0dp"
+        android:layout_marginLeft="0dp"
+        android:layout_marginRight="0dp"
+        android:layout_marginTop="0dp"
+        android:text="Start"
+        android:textSize="16sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.965" />
 </android.support.constraint.ConstraintLayout>
