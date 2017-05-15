@@ -28,6 +28,7 @@ public class PushUpActivity extends AppCompatActivity implements SensorEventList
     private MediaPlayer one;
     private MediaPlayer two;
     private MediaPlayer three;
+    private MediaPlayer doPushUps;
 
 
     @Override
@@ -40,6 +41,7 @@ public class PushUpActivity extends AppCompatActivity implements SensorEventList
         one = MediaPlayer.create(this, R.raw.one);
         two = MediaPlayer.create(this, R.raw.two);
         three = MediaPlayer.create(this, R.raw.three);
+        doPushUps = MediaPlayer.create(this, R.raw.timeforpushupsdoten);
 
         gb = MediaPlayer.create(this, R.raw.goodjob4);
         mSensorManager= (SensorManager)getSystemService(SENSOR_SERVICE);
@@ -49,6 +51,7 @@ public class PushUpActivity extends AppCompatActivity implements SensorEventList
 
         startTime = System.currentTimeMillis();
         nbrOfReps = getIntent().getIntExtra("REPS", 0);
+        doPushUps.start();
 
     }
 

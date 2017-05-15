@@ -6,6 +6,7 @@ import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
+import android.media.MediaPlayer;
 import android.os.CountDownTimer;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -22,17 +23,22 @@ public class DistanceActivity extends AppCompatActivity implements SensorEventLi
     public long startTime;
     public long endTime;
 
+    private MediaPlayer startRun;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_distance);
+
+        startRun = MediaPlayer.create(this, R.raw.startrun);
 
         meter = (TextView) findViewById(R.id.meters);
         sensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
 
         meters = getIntent().getIntExtra("DISTANCE", 0);
         startTime = System.currentTimeMillis();
-
+        startRun.start();
     }
 
     @Override
@@ -56,7 +62,6 @@ public class DistanceActivity extends AppCompatActivity implements SensorEventLi
     @Override
     public void onSensorChanged(SensorEvent event) {
         if (activityRunning) {
-
             if(initCountValue < 1){
                 initCountValue = (int)event.values[0];
             }

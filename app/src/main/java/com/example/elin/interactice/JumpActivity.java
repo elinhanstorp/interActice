@@ -29,6 +29,8 @@ public class JumpActivity extends AppCompatActivity implements SensorEventListen
     private MediaPlayer one;
     private MediaPlayer two;
     private MediaPlayer three;
+    private MediaPlayer letsJump;
+
 
 
     @Override
@@ -41,6 +43,7 @@ public class JumpActivity extends AppCompatActivity implements SensorEventListen
         one = MediaPlayer.create(this, R.raw.one);
         two = MediaPlayer.create(this, R.raw.two);
         three = MediaPlayer.create(this, R.raw.three);
+        letsJump = MediaPlayer.create(this, R.raw.letsdojumpten);
 
         mSensorManager= (SensorManager)getSystemService(SENSOR_SERVICE);
         mAccelerator=mSensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
@@ -49,6 +52,7 @@ public class JumpActivity extends AppCompatActivity implements SensorEventListen
 
         startTime = System.currentTimeMillis();
         nbrOfReps = getIntent().getIntExtra("JUMPS", 0);
+        letsJump.start();
     }
 
     @Override

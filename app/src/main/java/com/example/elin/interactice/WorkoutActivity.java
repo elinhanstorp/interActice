@@ -1,6 +1,7 @@
 package com.example.elin.interactice;
 
 import android.content.Intent;
+import android.media.MediaPlayer;
 import android.os.CountDownTimer;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -16,11 +17,14 @@ public class WorkoutActivity extends AppCompatActivity {
     public boolean timeToRun = true;
     private int nbrOfReps = 10;
     private int activityIndex = 0;
+    private MediaPlayer newworkout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_workout);
+
+        newworkout=MediaPlayer.create(this, R.raw.newworkout);
 
         Intent intent = getIntent();
         level = intent.getStringExtra("LEVEL");
@@ -33,6 +37,7 @@ public class WorkoutActivity extends AppCompatActivity {
 
         levelField.setText("Level: " + level);
         timeField.setText("Time: " + workoutTime + " min");
+        newworkout.start();
 
         //converting to millisec from min
         //workoutTime = workoutTime*1000*60;
