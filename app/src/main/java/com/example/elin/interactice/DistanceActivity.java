@@ -10,6 +10,7 @@ import android.media.MediaPlayer;
 import android.os.CountDownTimer;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.TextView;
 
@@ -43,6 +44,7 @@ public class DistanceActivity extends AppCompatActivity implements SensorEventLi
 
     @Override
     protected void onResume() {
+        overridePendingTransition(0,0);
         super.onResume();
         activityRunning = true;
         Sensor countSensor = sensorManager.getDefaultSensor(Sensor.TYPE_STEP_COUNTER);
@@ -54,6 +56,7 @@ public class DistanceActivity extends AppCompatActivity implements SensorEventLi
 
     @Override
     protected void onPause() {
+        overridePendingTransition(0,0);
         super.onPause();
         activityRunning = false;
     }
