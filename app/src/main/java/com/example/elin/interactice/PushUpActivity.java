@@ -19,15 +19,28 @@ public class PushUpActivity extends AppCompatActivity implements SensorEventList
     private boolean currentPosUp = false;
     private Sensor mAccelerator;
     private SensorManager mSensorManager;
-    private MediaPlayer gb;
     private int nbrOfReps;
     private long startTime;
     private long endTime;
+
+    private MediaPlayer gb;
+    private MediaPlayer threePush;
+    private MediaPlayer one;
+    private MediaPlayer two;
+    private MediaPlayer three;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_push_up);
+
+        threePush = MediaPlayer.create(this, R.raw.threepushlefttodo);
+        gb = MediaPlayer.create(this, R.raw.goodjob4);
+        one = MediaPlayer.create(this, R.raw.one);
+        two = MediaPlayer.create(this, R.raw.two);
+        three = MediaPlayer.create(this, R.raw.three);
+
         gb = MediaPlayer.create(this, R.raw.goodjob4);
         mSensorManager= (SensorManager)getSystemService(SENSOR_SERVICE);
         mAccelerator=mSensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
@@ -55,17 +68,24 @@ public class PushUpActivity extends AppCompatActivity implements SensorEventList
             }
         } else {
             if (detectUp(accelerationValues)) {
-                currentPosUp = true;
-                if (currentNbrPushUp == nbrOfReps) {
-                    gb.start();
-                    endTime = System.currentTimeMillis();
-                    Intent intent = new Intent();
-                    intent.putExtra("TIMELEFT", endTime - startTime);
-                    setResult(RESULT_OK, intent);
-                    finish();
+                if (currentNbrPushUp < nbrOfReps) {
+                    currentPosUp = true;
+                    currentNbrPushUp++;
+                    countWithMe(currentNbrPushUp);
+                    nbrPushUp.setText(Integer.toString(currentNbrPushUp));
+                    if (threeRepsLeft(currentNbrPushUp, nbrOfReps)) {
+                        threePush.start();
+                    }
+                    if (currentNbrPushUp == nbrOfReps) {
+                        nbrPushUp.setText("Good job");
+                        gb.start();
+                        endTime = System.currentTimeMillis();
+                        Intent intent = new Intent();
+                        intent.putExtra("TIMELEFT", endTime - startTime);
+                        setResult(RESULT_OK, intent);
+                        finish();
+                    }
                 }
-                currentNbrPushUp++;
-                nbrPushUp.setText(Integer.toString(currentNbrPushUp));
             }
         }
     }
@@ -138,5 +158,19 @@ public class PushUpActivity extends AppCompatActivity implements SensorEventList
         finish();
     }
 
+    public boolean threeRepsLeft(int currentNbrPushUp, int nbrOfReps) {
+        int remaining = nbrOfReps - currentNbrPushUp;
+        return remaining == 3;
+    }
+
+    public void countWithMe(int currentNbrPushUp){
+        if(currentNbrPushUp==1){
+            one.start();
+        }else if(currentNbrPushUp==2){
+            two.start();
+        }else if(currentNbrPushUp==3){
+            three.start();
+        }
+    }
 
 }
