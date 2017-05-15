@@ -14,7 +14,7 @@ public class WorkoutActivity extends AppCompatActivity {
     public long workoutTime;
     public final int REQUEST_CODE = 1;
     public boolean timeToRun = true;
-    private int nbrOfReps = 5;
+    private int nbrOfReps = 10;
     private int activityIndex = 0;
 
     @Override
