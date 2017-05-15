@@ -1,11 +1,13 @@
 package com.example.elin.interactice;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.media.MediaPlayer;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -170,6 +172,27 @@ public class JumpActivity extends AppCompatActivity implements SensorEventListen
         }else if(currentNbrJumps==3){
             three.start();
         }
+    }
+
+    @Override
+    public void onBackPressed() {
+        String msg = "Are you sure you want to end this workout?";
+        new AlertDialog.Builder(this)
+                .setIcon(android.R.drawable.ic_dialog_alert)
+                .setTitle("Closing Activity")
+                .setMessage(msg)
+                .setPositiveButton("Yes", new DialogInterface.OnClickListener()
+                {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        Intent intent = new Intent(JumpActivity.this, MainActivity.class);
+                        startActivity(intent);
+
+                    }
+
+                })
+                .setNegativeButton("No", null)
+                .show();
     }
 }
 
