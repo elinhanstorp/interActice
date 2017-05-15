@@ -102,6 +102,7 @@ public class JumpActivity extends AppCompatActivity implements SensorEventListen
 
     @Override
     protected void onResume() {
+        overridePendingTransition(0,0);
         super.onResume();
 
         if(mAccelerator !=  null) {
@@ -119,6 +120,7 @@ public class JumpActivity extends AppCompatActivity implements SensorEventListen
 
     @Override
     protected void onPause() {
+        overridePendingTransition(0,0);
         super.onPause();
 
         mSensorManager.unregisterListener(this);
