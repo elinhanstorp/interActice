@@ -26,6 +26,7 @@ import android.widget.Toast;
 
 public class PushUpActivity extends AppCompatActivity implements SensorEventListener{
     private TextView nbrPushUp;
+    private TextView finishedField;
     private int currentNbrPushUp = 0;
     private boolean currentPosUp = false;
     private Sensor mAccelerator;
@@ -59,6 +60,7 @@ public class PushUpActivity extends AppCompatActivity implements SensorEventList
         mSensorManager= (SensorManager)getSystemService(SENSOR_SERVICE);
         mAccelerator=mSensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
         nbrPushUp = (TextView) findViewById(R.id.nbrPushUps);
+        finishedField = (TextView) findViewById(R.id.finishedView);
         mSensorManager.registerListener(this, mAccelerator, SensorManager.SENSOR_DELAY_NORMAL);
 
         startTime = System.currentTimeMillis();
@@ -124,7 +126,8 @@ public class PushUpActivity extends AppCompatActivity implements SensorEventList
                         threePush.start();
                     }
                     if (currentNbrPushUp == nbrOfReps) {
-                        nbrPushUp.setText("Good job");
+                        nbrPushUp.setText("");
+                        finishedField.setText("Good job!");
                         gb.start();
                         endTime = System.currentTimeMillis();
                         Intent intent = new Intent();

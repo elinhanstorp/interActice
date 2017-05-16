@@ -25,6 +25,7 @@ public class JumpActivity extends AppCompatActivity implements SensorEventListen
     private float[] gravityValues = new float[3];
     private float[] magneticValues = new float[3];
     private TextView nbrJump;
+    private TextView finishedField;
     private int currentNbrJumps = 0;
     private boolean currentPosUp = false;
     private Sensor mAccelerator;
@@ -58,6 +59,7 @@ public class JumpActivity extends AppCompatActivity implements SensorEventListen
         mSensorManager = (SensorManager) getSystemService(SENSOR_SERVICE);
         mAccelerator = mSensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
         nbrJump = (TextView) findViewById(R.id.nbrJumps);
+        finishedField = (TextView) findViewById(R.id.finishedView);
         mSensorManager.registerListener(this, mAccelerator, SensorManager.SENSOR_DELAY_NORMAL);
 
         mMagnetic = mSensorManager.getDefaultSensor(Sensor.TYPE_MAGNETIC_FIELD);
@@ -163,7 +165,8 @@ public class JumpActivity extends AppCompatActivity implements SensorEventListen
                             threeJumps.start();
                         }
                         if (currentNbrJumps == nbrOfReps) {
-                            nbrJump.setText("Good job");
+                            nbrJump.setText("");
+                            finishedField.setText("Good job!");
                             gb.start();
                             endTime = System.currentTimeMillis();
                             Intent intent = new Intent();
