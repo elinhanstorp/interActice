@@ -2,6 +2,7 @@ package com.example.elin.interactice;
 
 import android.Manifest;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.hardware.Sensor;
@@ -10,14 +11,16 @@ import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.os.Vibrator;
 import android.support.v4.app.ActivityCompat;
+import android.media.MediaPlayer;
+import android.os.Handler;
+import android.os.Looper;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
-import android.content.Context;
-import android.os.Vibrator;
 
 public class PushUpActivity extends AppCompatActivity implements SensorEventListener{
     private TextView nbrPushUp;
@@ -26,23 +29,45 @@ public class PushUpActivity extends AppCompatActivity implements SensorEventList
     private Sensor mAccelerator;
     private SensorManager mSensorManager;
     private Vibrator v ;
+    private int nbrOfReps;
+    private long startTime;
+    private long endTime;
+
+    private MediaPlayer gb;
+    private MediaPlayer threePush;
+    private MediaPlayer one;
+    private MediaPlayer two;
+    private MediaPlayer three;
+    private MediaPlayer doPushUps;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_push_up);
+
+        threePush = MediaPlayer.create(this, R.raw.threepushlefttodo);
+        gb = MediaPlayer.create(this, R.raw.goodjob4);
+        one = MediaPlayer.create(this, R.raw.one);
+        two = MediaPlayer.create(this, R.raw.two);
+        three = MediaPlayer.create(this, R.raw.three);
+        doPushUps = MediaPlayer.create(this, R.raw.timeforpushupsdoten);
+
+        gb = MediaPlayer.create(this, R.raw.goodjob4);
         mSensorManager= (SensorManager)getSystemService(SENSOR_SERVICE);
         mAccelerator=mSensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
         nbrPushUp = (TextView) findViewById(R.id.nbrPushUps);
         mSensorManager.registerListener(this, mAccelerator, SensorManager.SENSOR_DELAY_NORMAL);
-        //v = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
+
+        startTime = System.currentTimeMillis();
+        nbrOfReps = getIntent().getIntExtra("REPS", 0);
+        doPushUps.start();
 
     }
 
     @Override
     public void onSensorChanged(SensorEvent event) {
         float[] accelerationValues= getValues(event);
-
 
         for(int i=0; i<accelerationValues.length; i++){
             if(i==1) {
@@ -56,9 +81,30 @@ public class PushUpActivity extends AppCompatActivity implements SensorEventList
             }
         } else {
             if (detectUp(accelerationValues)) {
-                currentPosUp = true;
-                currentNbrPushUp++;
-                nbrPushUp.setText(Integer.toString(currentNbrPushUp));
+                if (currentNbrPushUp < nbrOfReps) {
+                    currentPosUp = true;
+                    currentNbrPushUp++;
+                    countWithMe(currentNbrPushUp);
+                    nbrPushUp.setText(Integer.toString(currentNbrPushUp));
+                    if (threeRepsLeft(currentNbrPushUp, nbrOfReps)) {
+                        threePush.start();
+                    }
+                    if (currentNbrPushUp == nbrOfReps) {
+                        nbrPushUp.setText("Good job");
+                        gb.start();
+                        endTime = System.currentTimeMillis();
+                        Intent intent = new Intent();
+                        intent.putExtra("TIMELEFT", endTime - startTime);
+                        setResult(RESULT_OK, intent);
+
+                        new Handler(Looper.getMainLooper()).postDelayed(new Runnable() {
+                            @Override
+                            public void run() {
+                                finish();
+                            }
+                        }, 3000);
+                    }
+                }
                 Vib();
             }
         }
@@ -73,14 +119,14 @@ public class PushUpActivity extends AppCompatActivity implements SensorEventList
     }
 
     private boolean detectDown(float[] values) {
-        if(values[1]>4) { //accerlation ner
+        if(values[1]>4) {
             return true;
         }
         return false;
     }
 
     private boolean detectUp(float[] values) {
-        if(values[1]<1.5){ //accerlation up
+        if(values[1]<1.5){
             return true;
         }
         return false;
@@ -107,6 +153,7 @@ public class PushUpActivity extends AppCompatActivity implements SensorEventList
 
     @Override
     protected void onResume() {
+        overridePendingTransition(0,0);
         super.onResume();
 
         if(mAccelerator !=  null) {
@@ -124,6 +171,7 @@ public class PushUpActivity extends AppCompatActivity implements SensorEventList
 
     @Override
     protected void onPause() {
+        overridePendingTransition(0,0);
         super.onPause();
 
         mSensorManager.unregisterListener(this);
@@ -132,11 +180,48 @@ public class PushUpActivity extends AppCompatActivity implements SensorEventList
     public void onAccuracyChanged(Sensor sensor, int accuracy) {
 
     }
-    public void goToDistance(View view) {
-        Intent intent;
-        intent = new Intent(this, DistanceActivity.class);
-        startActivity(intent);
+    public void nextActivity(View view) {
+        endTime = System.currentTimeMillis();
+        Intent intent = new Intent();
+        intent.putExtra("TIMELEFT", endTime - startTime);
+        setResult(RESULT_OK, intent);
+        finish();
     }
 
+    public boolean threeRepsLeft(int currentNbrPushUp, int nbrOfReps) {
+        int remaining = nbrOfReps - currentNbrPushUp;
+        return remaining == 3;
+    }
+
+    public void countWithMe(int currentNbrPushUp){
+        if(currentNbrPushUp==1){
+            one.start();
+        }else if(currentNbrPushUp==2){
+            two.start();
+        }else if(currentNbrPushUp==3){
+            three.start();
+        }
+    }
+
+    @Override
+    public void onBackPressed() {
+        String msg = "Are you sure you want to end this workout?";
+        new AlertDialog.Builder(this)
+                .setIcon(android.R.drawable.ic_dialog_alert)
+                .setTitle("Closing Activity")
+                .setMessage(msg)
+                .setPositiveButton("Yes", new DialogInterface.OnClickListener()
+                {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        Intent intent = new Intent(PushUpActivity.this, MainActivity.class);
+                        startActivity(intent);
+
+                    }
+
+                })
+                .setNegativeButton("No", null)
+                .show();
+    }
 
 }
