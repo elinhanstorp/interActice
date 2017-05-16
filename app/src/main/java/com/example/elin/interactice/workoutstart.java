@@ -29,8 +29,8 @@ public class workoutstart extends Fragment {
 
         View v = inflater.inflate(R.layout.fragment_workoutstart, container, false);
         intent = new Intent(getActivity(), WorkoutActivity.class);
-        intent.putExtra("LEVEL", "easy");
-        intent.putExtra("TIME", "15");
+        intent.putExtra("LEVEL", "Demo");
+        intent.putExtra("TIME", "2");
 
 
         RadioGroup rgLevel = (RadioGroup) v.findViewById(R.id.LevelGroup);
@@ -51,7 +51,6 @@ public class workoutstart extends Fragment {
                         break;
 
                 }
-
             }
         });
 
