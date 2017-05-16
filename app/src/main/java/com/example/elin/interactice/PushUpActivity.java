@@ -84,6 +84,7 @@ public class PushUpActivity extends AppCompatActivity implements SensorEventList
                 if (currentNbrPushUp < nbrOfReps) {
                     currentPosUp = true;
                     currentNbrPushUp++;
+                    Vib();
                     countWithMe(currentNbrPushUp);
                     nbrPushUp.setText(Integer.toString(currentNbrPushUp));
                     if (threeRepsLeft(currentNbrPushUp, nbrOfReps)) {
@@ -105,7 +106,7 @@ public class PushUpActivity extends AppCompatActivity implements SensorEventList
                         }, 3000);
                     }
                 }
-                Vib();
+
             }
         }
     }
@@ -115,11 +116,11 @@ public class PushUpActivity extends AppCompatActivity implements SensorEventList
             if (ActivityCompat.checkSelfPermission(this, Manifest.permission.VIBRATE) != PackageManager.PERMISSION_GRANTED) {
                 return;
             }
-        v.vibrate(200);
+        v.vibrate(300);
     }
 
     private boolean detectDown(float[] values) {
-        if(values[1]>4) {
+        if(values[1]>3) {
             return true;
         }
         return false;
