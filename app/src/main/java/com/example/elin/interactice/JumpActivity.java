@@ -187,14 +187,14 @@ public class JumpActivity extends AppCompatActivity implements SensorEventListen
     }
 
     private boolean detectDown(float[] values) {
-        if (values[2] > 15) {
+        if (values[2] > 12) {
             return true;
         }
         return false;
     }
 
     private boolean detectUp(float[] values) {
-        if (values[2] < -3) {
+        if (values[2] < -2) {
             return true;
         }
         return false;
