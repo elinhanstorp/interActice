@@ -1,16 +1,23 @@
 package com.example.elin.interactice;
 
+import android.Manifest;
+import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
+import android.os.Vibrator;
+import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.content.Context;
+import android.os.Vibrator;
 
 public class PushUpActivity extends AppCompatActivity implements SensorEventListener{
     private TextView nbrPushUp;
@@ -18,6 +25,7 @@ public class PushUpActivity extends AppCompatActivity implements SensorEventList
     private boolean currentPosUp = false;
     private Sensor mAccelerator;
     private SensorManager mSensorManager;
+    private Vibrator v ;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,12 +35,14 @@ public class PushUpActivity extends AppCompatActivity implements SensorEventList
         mAccelerator=mSensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
         nbrPushUp = (TextView) findViewById(R.id.nbrPushUps);
         mSensorManager.registerListener(this, mAccelerator, SensorManager.SENSOR_DELAY_NORMAL);
+        //v = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
 
     }
 
     @Override
     public void onSensorChanged(SensorEvent event) {
         float[] accelerationValues= getValues(event);
+
 
         for(int i=0; i<accelerationValues.length; i++){
             if(i==1) {
@@ -49,19 +59,28 @@ public class PushUpActivity extends AppCompatActivity implements SensorEventList
                 currentPosUp = true;
                 currentNbrPushUp++;
                 nbrPushUp.setText(Integer.toString(currentNbrPushUp));
+                Vib();
             }
         }
     }
+    public void Vib(){
+
+        v =  (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
+            if (ActivityCompat.checkSelfPermission(this, Manifest.permission.VIBRATE) != PackageManager.PERMISSION_GRANTED) {
+                return;
+            }
+        v.vibrate(200);
+    }
 
     private boolean detectDown(float[] values) {
-        if(values[1]>4) {
+        if(values[1]>4) { //accerlation ner
             return true;
         }
         return false;
     }
 
     private boolean detectUp(float[] values) {
-        if(values[1]<1.5){
+        if(values[1]<1.5){ //accerlation up
             return true;
         }
         return false;
