@@ -12,6 +12,8 @@ import android.os.Looper;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.GestureDetector;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -67,6 +69,38 @@ public class JumpActivity extends AppCompatActivity implements SensorEventListen
         startTime = System.currentTimeMillis();
         nbrOfReps = getIntent().getIntExtra("JUMPS", 0);
         letsJump.start();
+
+        final GestureDetector gd = new GestureDetector(getApplicationContext(), new GestureDetector.SimpleOnGestureListener(){
+            @Override
+            public boolean onDoubleTap(MotionEvent e) {
+                nextActivity(findViewById(android.R.id.content));
+                return true;
+            }
+
+            @Override
+            public void onLongPress(MotionEvent e) {
+                super.onLongPress(e);
+
+            }
+
+            @Override
+            public boolean onDoubleTapEvent(MotionEvent e) {
+                return true;
+            }
+
+            @Override
+            public boolean onDown(MotionEvent e) {
+                return true;
+            }
+        });
+
+        findViewById(android.R.id.content).setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+
+                return gd.onTouchEvent(event);
+            }
+        });
     }
 
     @Override
@@ -150,14 +184,14 @@ public class JumpActivity extends AppCompatActivity implements SensorEventListen
     }
 
     private boolean detectDown(float[] values) {
-        if (values[2] > 15) {
+        if (values[2] > 12) {
             return true;
         }
         return false;
     }
 
     private boolean detectUp(float[] values) {
-        if (values[2] < -3) {
+        if (values[2] < -2) {
             return true;
         }
         return false;

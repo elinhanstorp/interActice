@@ -2,13 +2,14 @@ package com.example.elin.interactice;
 
 import android.content.Intent;
 import android.media.MediaPlayer;
+import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.util.Log;
+import android.view.GestureDetector;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
-import android.widget.RadioGroup;
 import android.widget.TextView;
 
 public class WorkoutActivity extends AppCompatActivity {
@@ -26,12 +27,12 @@ public class WorkoutActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_workout);
 
-        final Button button = (Button) findViewById(R.id.startButton);
+        /*final Button button = (Button) findViewById(R.id.startButton);
         button.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 workoutHandler(workoutTime);
             }
-        });
+        });*/
 
         newworkout=MediaPlayer.create(this, R.raw.newworkout);
 
@@ -42,7 +43,7 @@ public class WorkoutActivity extends AppCompatActivity {
 
         TextView levelField =  (TextView)findViewById(R.id.level);
         TextView timeField =  (TextView)findViewById(R.id.time);
-        final TextView counterField =  (TextView)findViewById(R.id.countdown);
+        //final TextView counterField =  (TextView)findViewById(R.id.countdown);
 
         levelField.setText("Level: " + level);
         timeField.setText("Time: " + workoutTime + " min");
@@ -50,9 +51,9 @@ public class WorkoutActivity extends AppCompatActivity {
 
         //converting to millisec from min
         //workoutTime = workoutTime*1000*60;
-        workoutTime = 3*1000*60;
+        workoutTime = 2*1000*60;
         totalWorkoutTime = workoutTime;
-
+        /*
         new CountDownTimer(10000, 1000) {
 
             public void onTick(long millisUntilFinished) {
@@ -64,7 +65,40 @@ public class WorkoutActivity extends AppCompatActivity {
                 workoutHandler(workoutTime);
             }
         }.start();
+        */
 
+
+        final GestureDetector gd = new GestureDetector(getApplicationContext(), new GestureDetector.SimpleOnGestureListener(){
+            @Override
+            public boolean onDoubleTap(MotionEvent e) {
+                workoutHandler(workoutTime);
+                return true;
+            }
+
+            @Override
+            public void onLongPress(MotionEvent e) {
+                super.onLongPress(e);
+
+            }
+
+            @Override
+            public boolean onDoubleTapEvent(MotionEvent e) {
+                return true;
+            }
+
+            @Override
+            public boolean onDown(MotionEvent e) {
+                return true;
+            }
+        });
+
+        findViewById(android.R.id.content).setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+
+                return gd.onTouchEvent(event);
+            }
+        });
 
     }
 
