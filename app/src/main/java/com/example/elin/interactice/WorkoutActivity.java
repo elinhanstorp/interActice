@@ -2,13 +2,12 @@ package com.example.elin.interactice;
 
 import android.content.Intent;
 import android.media.MediaPlayer;
+import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
-import android.widget.RadioGroup;
 import android.widget.TextView;
 
 public class WorkoutActivity extends AppCompatActivity {
@@ -50,7 +49,7 @@ public class WorkoutActivity extends AppCompatActivity {
 
         //converting to millisec from min
         //workoutTime = workoutTime*1000*60;
-        workoutTime = 3*1000*60;
+        workoutTime = 2*1000*60;
         totalWorkoutTime = workoutTime;
 
         new CountDownTimer(10000, 1000) {
