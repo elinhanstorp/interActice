@@ -23,8 +23,8 @@ public class WorkoutActivity extends AppCompatActivity {
     private int activityIndex = 0;
     private MediaPlayer fastenphone;
     private MediaPlayer doubletapstart;
-    private MediaPlayer doubletaptoskip;
     private long totalWorkoutTime;
+    public static int check=0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,7 +40,7 @@ public class WorkoutActivity extends AppCompatActivity {
 
         fastenphone =MediaPlayer.create(this, R.raw.fastenyourphone);
         doubletapstart=MediaPlayer.create(this, R.raw.doubletaptostart);
-        doubletaptoskip=MediaPlayer.create(this, R.raw.duringtapskip);
+
 
         Intent intent = getIntent();
         level = intent.getStringExtra("LEVEL");
@@ -161,4 +161,11 @@ public class WorkoutActivity extends AppCompatActivity {
         workoutHandler(workoutTime);
     }
 
+    public static int getCheck(){
+        return check;
+    }
+
+    public static void setCheck(int checkNew){
+        check = checkNew;
+    }
 }

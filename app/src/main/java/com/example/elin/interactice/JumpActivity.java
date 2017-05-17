@@ -9,6 +9,7 @@ import android.hardware.SensorManager;
 import android.media.MediaPlayer;
 import android.os.Handler;
 import android.os.Looper;
+import android.provider.MediaStore;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -34,6 +35,7 @@ public class JumpActivity extends AppCompatActivity implements SensorEventListen
     private long startTime;
     private long endTime;
 
+
     //Soundfiles
     private MediaPlayer gb;
     private MediaPlayer threeJumps;
@@ -41,7 +43,9 @@ public class JumpActivity extends AppCompatActivity implements SensorEventListen
     private MediaPlayer two;
     private MediaPlayer three;
     private MediaPlayer letsJump;
-
+    private MediaPlayer doubletaptoskip;
+    private MediaPlayer activityskipped;
+    private MediaPlayer tone;
 
 
     @Override
@@ -55,6 +59,9 @@ public class JumpActivity extends AppCompatActivity implements SensorEventListen
         two = MediaPlayer.create(this, R.raw.two);
         three = MediaPlayer.create(this, R.raw.three);
         letsJump = MediaPlayer.create(this, R.raw.letsdojumpten);
+        doubletaptoskip=MediaPlayer.create(this, R.raw.duringtapskip);
+        activityskipped=MediaPlayer.create(this, R.raw.activityskipped);
+        tone=MediaPlayer.create(this, R.raw.tone);
 
         mSensorManager = (SensorManager) getSystemService(SENSOR_SERVICE);
         mAccelerator = mSensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
@@ -70,12 +77,26 @@ public class JumpActivity extends AppCompatActivity implements SensorEventListen
 
         startTime = System.currentTimeMillis();
         nbrOfReps = getIntent().getIntExtra("JUMPS", 0);
-        letsJump.start();
+       Integer c= WorkoutActivity.getCheck();
+
+        if(checkIfFirstActivity(c)){
+            doubletaptoskip.start();
+            new Handler(Looper.getMainLooper()).postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    letsJump.start();
+                }
+            }, 6000);
+        }else {
+            letsJump.start();
+        }
 
         final GestureDetector gd = new GestureDetector(getApplicationContext(), new GestureDetector.SimpleOnGestureListener(){
             @Override
             public boolean onDoubleTap(MotionEvent e) {
+                //activityskipped.start();
                 nextActivity(findViewById(android.R.id.content));
+
                 return true;
             }
 
@@ -251,7 +272,17 @@ public class JumpActivity extends AppCompatActivity implements SensorEventListen
             two.start();
         } else if (currentNbrJumps == 3) {
             three.start();
+       }else if(!threeRepsLeft(currentNbrJumps, nbrOfReps)){
+            tone.start();
         }
+    }
+
+    public boolean checkIfFirstActivity(int check){
+        if(check==0){
+            WorkoutActivity.setCheck(1);
+            return true;
+        }
+        return false;
     }
 
     @Override

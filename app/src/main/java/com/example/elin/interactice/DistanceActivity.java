@@ -31,6 +31,7 @@ public class DistanceActivity extends AppCompatActivity implements SensorEventLi
     public long endTime;
 
     private MediaPlayer startRun;
+    private MediaPlayer activityskipped;
 
 
     @Override
@@ -39,6 +40,8 @@ public class DistanceActivity extends AppCompatActivity implements SensorEventLi
         setContentView(R.layout.activity_distance);
 
         startRun = MediaPlayer.create(this, R.raw.startrun);
+
+        activityskipped=MediaPlayer.create(this, R.raw.activityskipped);
 
         meter = (TextView) findViewById(R.id.meters);
         sensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
@@ -50,6 +53,7 @@ public class DistanceActivity extends AppCompatActivity implements SensorEventLi
         final GestureDetector gd = new GestureDetector(getApplicationContext(), new GestureDetector.SimpleOnGestureListener(){
             @Override
             public boolean onDoubleTap(MotionEvent e) {
+               // activityskipped.start();
                 nextActivity(findViewById(android.R.id.content));
                 return true;
             }
@@ -142,7 +146,6 @@ public class DistanceActivity extends AppCompatActivity implements SensorEventLi
         setResult(RESULT_OK, intent);
         finish();
     }
-
 
     @Override
     public void onBackPressed() {
