@@ -4,6 +4,8 @@ import android.content.Intent;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.os.CountDownTimer;
+import android.os.Handler;
+import android.os.Looper;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.GestureDetector;
@@ -19,7 +21,9 @@ public class WorkoutActivity extends AppCompatActivity {
     public boolean timeToRun = true;
     private int nbrOfReps = 10;
     private int activityIndex = 0;
-    private MediaPlayer newworkout;
+    private MediaPlayer fastenphone;
+    private MediaPlayer doubletapstart;
+    private MediaPlayer doubletaptoskip;
     private long totalWorkoutTime;
 
     @Override
@@ -34,7 +38,9 @@ public class WorkoutActivity extends AppCompatActivity {
             }
         });*/
 
-        newworkout=MediaPlayer.create(this, R.raw.newworkout);
+        fastenphone =MediaPlayer.create(this, R.raw.fastenyourphone);
+        doubletapstart=MediaPlayer.create(this, R.raw.doubletaptostart);
+        doubletaptoskip=MediaPlayer.create(this, R.raw.duringtapskip);
 
         Intent intent = getIntent();
         level = intent.getStringExtra("LEVEL");
@@ -47,7 +53,14 @@ public class WorkoutActivity extends AppCompatActivity {
 
         levelField.setText("Level: " + level);
         timeField.setText("Time: " + workoutTime + " min");
-        newworkout.start();
+        fastenphone.start();
+
+        new Handler(Looper.getMainLooper()).postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                doubletapstart.start();
+            }
+        }, 2000);
 
         //converting to millisec from min
         //workoutTime = workoutTime*1000*60;

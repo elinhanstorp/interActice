@@ -9,6 +9,8 @@ import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.media.MediaPlayer;
 import android.os.CountDownTimer;
+import android.os.Handler;
+import android.os.Looper;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -116,7 +118,12 @@ public class DistanceActivity extends AppCompatActivity implements SensorEventLi
                 Intent intent = new Intent();
                 intent.putExtra("TIMELEFT", endTime - startTime);
                 setResult(RESULT_OK, intent);
-                finish();
+                new Handler(Looper.getMainLooper()).postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        finish();
+                    }
+                }, 2000);
             }else{
                 meter.setText("Number of meters left:  " + String.valueOf((int)remaining));
             }
