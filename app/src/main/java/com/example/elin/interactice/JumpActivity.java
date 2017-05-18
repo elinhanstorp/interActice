@@ -10,16 +10,17 @@ import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.media.MediaPlayer;
+import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.Vibrator;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.view.GestureDetector;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -30,6 +31,7 @@ public class JumpActivity extends AppCompatActivity implements SensorEventListen
     private float[] gravityValues = new float[3];
     private float[] magneticValues = new float[3];
     private TextView nbrJump;
+    private TextView finishedField;
     private int currentNbrJumps = 0;
     private boolean currentPosUp = false;
     private Sensor mAccelerator;
@@ -39,6 +41,7 @@ public class JumpActivity extends AppCompatActivity implements SensorEventListen
     private long endTime;
     private Vibrator v ;
 
+
     //Soundfiles
     private MediaPlayer gb;
     private MediaPlayer threeJumps;
@@ -46,13 +49,16 @@ public class JumpActivity extends AppCompatActivity implements SensorEventListen
     private MediaPlayer two;
     private MediaPlayer three;
     private MediaPlayer letsJump;
-
+    private MediaPlayer doubletaptoskip;
+    private MediaPlayer activityskipped;
+    private MediaPlayer tone;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_jump);
+        getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
 
         threeJumps = MediaPlayer.create(this, R.raw.threejumpsleft);
         gb = MediaPlayer.create(this, R.raw.goodjob4);
@@ -60,10 +66,14 @@ public class JumpActivity extends AppCompatActivity implements SensorEventListen
         two = MediaPlayer.create(this, R.raw.two);
         three = MediaPlayer.create(this, R.raw.three);
         letsJump = MediaPlayer.create(this, R.raw.letsdojumpten);
+        doubletaptoskip = MediaPlayer.create(this, R.raw.duringtapskip);
+        activityskipped = MediaPlayer.create(this, R.raw.activityskipped);
+        tone = MediaPlayer.create(this, R.raw.tone);
 
         mSensorManager = (SensorManager) getSystemService(SENSOR_SERVICE);
         mAccelerator = mSensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
         nbrJump = (TextView) findViewById(R.id.nbrJumps);
+        finishedField = (TextView) findViewById(R.id.finishedView);
         mSensorManager.registerListener(this, mAccelerator, SensorManager.SENSOR_DELAY_NORMAL);
 
         mMagnetic = mSensorManager.getDefaultSensor(Sensor.TYPE_MAGNETIC_FIELD);
@@ -74,12 +84,26 @@ public class JumpActivity extends AppCompatActivity implements SensorEventListen
 
         startTime = System.currentTimeMillis();
         nbrOfReps = getIntent().getIntExtra("JUMPS", 0);
-        letsJump.start();
+        Integer c = WorkoutActivity.getCheck();
 
-        final GestureDetector gd = new GestureDetector(getApplicationContext(), new GestureDetector.SimpleOnGestureListener(){
+        if (checkIfFirstActivity(c)) {
+            doubletaptoskip.start();
+            new Handler(Looper.getMainLooper()).postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    letsJump.start();
+                }
+            }, 6000);
+        } else {
+            letsJump.start();
+        }
+
+        final GestureDetector gd = new GestureDetector(getApplicationContext(), new GestureDetector.SimpleOnGestureListener() {
             @Override
             public boolean onDoubleTap(MotionEvent e) {
+                //activityskipped.start();
                 nextActivity(findViewById(android.R.id.content));
+
                 return true;
             }
 
@@ -170,7 +194,8 @@ public class JumpActivity extends AppCompatActivity implements SensorEventListen
                             threeJumps.start();
                         }
                         if (currentNbrJumps == nbrOfReps) {
-                            nbrJump.setText("Good job");
+                            nbrJump.setText("");
+                            finishedField.setText("Good job!");
                             gb.start();
                             endTime = System.currentTimeMillis();
                             Intent intent = new Intent();
@@ -215,7 +240,7 @@ public class JumpActivity extends AppCompatActivity implements SensorEventListen
 
     @Override
     protected void onResume() {
-        overridePendingTransition(0,0);
+        overridePendingTransition(0, 0);
         super.onResume();
 
         if (mAccelerator != null) {
@@ -233,7 +258,7 @@ public class JumpActivity extends AppCompatActivity implements SensorEventListen
 
     @Override
     protected void onPause() {
-        overridePendingTransition(0,0);
+        overridePendingTransition(0, 0);
         super.onPause();
 
         mSensorManager.unregisterListener(this);
@@ -264,7 +289,17 @@ public class JumpActivity extends AppCompatActivity implements SensorEventListen
             two.start();
         } else if (currentNbrJumps == 3) {
             three.start();
+        } else if (!threeRepsLeft(currentNbrJumps, nbrOfReps)) {
+            tone.start();
         }
+    }
+
+    public boolean checkIfFirstActivity(int check) {
+        if (check == 0) {
+            WorkoutActivity.setCheck(1);
+            return true;
+        }
+        return false;
     }
 
     @Override
@@ -274,8 +309,7 @@ public class JumpActivity extends AppCompatActivity implements SensorEventListen
                 .setIcon(android.R.drawable.ic_dialog_alert)
                 .setTitle("Closing Activity")
                 .setMessage(msg)
-                .setPositiveButton("Yes", new DialogInterface.OnClickListener()
-                {
+                .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         Intent intent = new Intent(JumpActivity.this, MainActivity.class);

@@ -8,14 +8,15 @@ import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.media.MediaPlayer;
-import android.os.CountDownTimer;
-import android.support.v7.app.AlertDialog;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.view.GestureDetector;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.TextView;
 
 public class DistanceActivity extends AppCompatActivity implements SensorEventListener{
@@ -29,14 +30,18 @@ public class DistanceActivity extends AppCompatActivity implements SensorEventLi
     public long endTime;
 
     private MediaPlayer startRun;
+    private MediaPlayer activityskipped;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_distance);
+        getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
 
         startRun = MediaPlayer.create(this, R.raw.startrun);
+
+        activityskipped=MediaPlayer.create(this, R.raw.activityskipped);
 
         meter = (TextView) findViewById(R.id.meters);
         sensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
@@ -48,6 +53,7 @@ public class DistanceActivity extends AppCompatActivity implements SensorEventLi
         final GestureDetector gd = new GestureDetector(getApplicationContext(), new GestureDetector.SimpleOnGestureListener(){
             @Override
             public boolean onDoubleTap(MotionEvent e) {
+               // activityskipped.start();
                 nextActivity(findViewById(android.R.id.content));
                 return true;
             }
@@ -116,7 +122,12 @@ public class DistanceActivity extends AppCompatActivity implements SensorEventLi
                 Intent intent = new Intent();
                 intent.putExtra("TIMELEFT", endTime - startTime);
                 setResult(RESULT_OK, intent);
-                finish();
+                new Handler(Looper.getMainLooper()).postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        finish();
+                    }
+                }, 2000);
             }else{
                 meter.setText("Number of meters left:  " + String.valueOf((int)remaining));
             }
@@ -135,7 +146,6 @@ public class DistanceActivity extends AppCompatActivity implements SensorEventLi
         setResult(RESULT_OK, intent);
         finish();
     }
-
 
     @Override
     public void onBackPressed() {

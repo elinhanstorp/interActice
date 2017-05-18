@@ -9,23 +9,25 @@ import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
-import android.os.Vibrator;
-import android.support.v4.app.ActivityCompat;
 import android.media.MediaPlayer;
+import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
+import android.os.Vibrator;
+import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.util.Log;
 import android.view.GestureDetector;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.TextView;
 import android.widget.Toast;
 
 public class PushUpActivity extends AppCompatActivity implements SensorEventListener{
     private TextView nbrPushUp;
+    private TextView finishedField;
     private int currentNbrPushUp = 0;
     private boolean currentPosUp = false;
     private Sensor mAccelerator;
@@ -41,12 +43,18 @@ public class PushUpActivity extends AppCompatActivity implements SensorEventList
     private MediaPlayer two;
     private MediaPlayer three;
     private MediaPlayer doPushUps;
+    private MediaPlayer doubletaptoskip;
+    private int check=0;
+    private MediaPlayer activityskipped;
+    private MediaPlayer tone;
+
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_push_up);
+        getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
 
         threePush = MediaPlayer.create(this, R.raw.threepushlefttodo);
         gb = MediaPlayer.create(this, R.raw.goodjob4);
@@ -54,16 +62,32 @@ public class PushUpActivity extends AppCompatActivity implements SensorEventList
         two = MediaPlayer.create(this, R.raw.two);
         three = MediaPlayer.create(this, R.raw.three);
         doPushUps = MediaPlayer.create(this, R.raw.timeforpushupsdoten);
+        doubletaptoskip=MediaPlayer.create(this, R.raw.duringtapskip);
+        activityskipped=MediaPlayer.create(this, R.raw.activityskipped);
+        tone=MediaPlayer.create(this, R.raw.tone);
 
         gb = MediaPlayer.create(this, R.raw.goodjob4);
         mSensorManager= (SensorManager)getSystemService(SENSOR_SERVICE);
         mAccelerator=mSensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
         nbrPushUp = (TextView) findViewById(R.id.nbrPushUps);
+        finishedField = (TextView) findViewById(R.id.finishedView);
         mSensorManager.registerListener(this, mAccelerator, SensorManager.SENSOR_DELAY_NORMAL);
 
         startTime = System.currentTimeMillis();
         nbrOfReps = getIntent().getIntExtra("REPS", 0);
-        doPushUps.start();
+
+      /*  if(checkIfFirstActivity(check)){
+            doubletaptoskip.start();
+            new Handler(Looper.getMainLooper()).postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    doPushUps.start();
+                }
+            }, 6000);
+        }else {*/
+            doPushUps.start();
+       // }
+
 
         final GestureDetector gd = new GestureDetector(getApplicationContext(), new GestureDetector.SimpleOnGestureListener(){
             @Override
@@ -125,7 +149,8 @@ public class PushUpActivity extends AppCompatActivity implements SensorEventList
                         threePush.start();
                     }
                     if (currentNbrPushUp == nbrOfReps) {
-                        nbrPushUp.setText("Good job");
+                        nbrPushUp.setText("");
+                        finishedField.setText("Good job!");
                         gb.start();
                         endTime = System.currentTimeMillis();
                         Intent intent = new Intent();
@@ -235,7 +260,17 @@ public class PushUpActivity extends AppCompatActivity implements SensorEventList
             two.start();
         }else if(currentNbrPushUp==3){
             three.start();
+        }else if(!threeRepsLeft(currentNbrPushUp, nbrOfReps)){
+        tone.start();
+    }
+    }
+
+    public boolean checkIfFirstActivity(int check){
+        if(check==0){
+            check=1;
+            return true;
         }
+        return false;
     }
 
     @Override

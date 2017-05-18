@@ -3,13 +3,14 @@ package com.example.elin.interactice;
 import android.content.Intent;
 import android.media.MediaPlayer;
 import android.os.Bundle;
-import android.os.CountDownTimer;
+import android.os.Handler;
+import android.os.Looper;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.GestureDetector;
 import android.view.MotionEvent;
 import android.view.View;
-import android.widget.Button;
+import android.view.WindowManager;
 import android.widget.TextView;
 
 public class WorkoutActivity extends AppCompatActivity {
@@ -19,13 +20,16 @@ public class WorkoutActivity extends AppCompatActivity {
     public boolean timeToRun = true;
     private int nbrOfReps = 10;
     private int activityIndex = 0;
-    private MediaPlayer newworkout;
+    private MediaPlayer fastenphone;
+    private MediaPlayer doubletapstart;
     private long totalWorkoutTime;
+    public static int check=0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_workout);
+        getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
 
         /*final Button button = (Button) findViewById(R.id.startButton);
         button.setOnClickListener(new View.OnClickListener() {
@@ -34,7 +38,9 @@ public class WorkoutActivity extends AppCompatActivity {
             }
         });*/
 
-        newworkout=MediaPlayer.create(this, R.raw.newworkout);
+        fastenphone =MediaPlayer.create(this, R.raw.fastenyourphone);
+        doubletapstart=MediaPlayer.create(this, R.raw.doubletaptostart);
+
 
         Intent intent = getIntent();
         level = intent.getStringExtra("LEVEL");
@@ -47,7 +53,14 @@ public class WorkoutActivity extends AppCompatActivity {
 
         levelField.setText("Level: " + level);
         timeField.setText("Time: " + workoutTime + " min");
-        newworkout.start();
+        fastenphone.start();
+
+        new Handler(Looper.getMainLooper()).postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                doubletapstart.start();
+            }
+        }, 2000);
 
         //converting to millisec from min
         //workoutTime = workoutTime*1000*60;
@@ -148,4 +161,11 @@ public class WorkoutActivity extends AppCompatActivity {
         workoutHandler(workoutTime);
     }
 
+    public static int getCheck(){
+        return check;
+    }
+
+    public static void setCheck(int checkNew){
+        check = checkNew;
+    }
 }
