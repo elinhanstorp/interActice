@@ -50,7 +50,7 @@ public class FinishActivity extends AppCompatActivity {
         TextView timeField =  (TextView)findViewById(R.id.time);
 
         levelField.setText("Level: " + level);
-        timeField.setText("Time: " + workoutTime + " min");
+        timeField.setText("Time: " + workoutTime/(60) + " min");
     }
 
     public void exit(View view){

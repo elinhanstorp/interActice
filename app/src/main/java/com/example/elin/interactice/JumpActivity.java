@@ -60,9 +60,9 @@ public class JumpActivity extends AppCompatActivity implements SensorEventListen
         two = MediaPlayer.create(this, R.raw.two);
         three = MediaPlayer.create(this, R.raw.three);
         letsJump = MediaPlayer.create(this, R.raw.letsdojumpten);
-        doubletaptoskip=MediaPlayer.create(this, R.raw.duringtapskip);
-        activityskipped=MediaPlayer.create(this, R.raw.activityskipped);
-        tone=MediaPlayer.create(this, R.raw.tone);
+        doubletaptoskip = MediaPlayer.create(this, R.raw.duringtapskip);
+        activityskipped = MediaPlayer.create(this, R.raw.activityskipped);
+        tone = MediaPlayer.create(this, R.raw.tone);
 
         mSensorManager = (SensorManager) getSystemService(SENSOR_SERVICE);
         mAccelerator = mSensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
@@ -78,9 +78,9 @@ public class JumpActivity extends AppCompatActivity implements SensorEventListen
 
         startTime = System.currentTimeMillis();
         nbrOfReps = getIntent().getIntExtra("JUMPS", 0);
-       Integer c= WorkoutActivity.getCheck();
+        Integer c = WorkoutActivity.getCheck();
 
-        if(checkIfFirstActivity(c)){
+        if (checkIfFirstActivity(c)) {
             doubletaptoskip.start();
             new Handler(Looper.getMainLooper()).postDelayed(new Runnable() {
                 @Override
@@ -88,11 +88,11 @@ public class JumpActivity extends AppCompatActivity implements SensorEventListen
                     letsJump.start();
                 }
             }, 6000);
-        }else {
+        } else {
             letsJump.start();
         }
 
-        final GestureDetector gd = new GestureDetector(getApplicationContext(), new GestureDetector.SimpleOnGestureListener(){
+        final GestureDetector gd = new GestureDetector(getApplicationContext(), new GestureDetector.SimpleOnGestureListener() {
             @Override
             public boolean onDoubleTap(MotionEvent e) {
                 //activityskipped.start();
@@ -224,7 +224,7 @@ public class JumpActivity extends AppCompatActivity implements SensorEventListen
 
     @Override
     protected void onResume() {
-        overridePendingTransition(0,0);
+        overridePendingTransition(0, 0);
         super.onResume();
 
         if (mAccelerator != null) {
@@ -242,7 +242,7 @@ public class JumpActivity extends AppCompatActivity implements SensorEventListen
 
     @Override
     protected void onPause() {
-        overridePendingTransition(0,0);
+        overridePendingTransition(0, 0);
         super.onPause();
 
         mSensorManager.unregisterListener(this);
@@ -273,13 +273,13 @@ public class JumpActivity extends AppCompatActivity implements SensorEventListen
             two.start();
         } else if (currentNbrJumps == 3) {
             three.start();
-       }else if(!threeRepsLeft(currentNbrJumps, nbrOfReps)){
+        } else if (!threeRepsLeft(currentNbrJumps, nbrOfReps)) {
             tone.start();
         }
     }
 
-    public boolean checkIfFirstActivity(int check){
-        if(check==0){
+    public boolean checkIfFirstActivity(int check) {
+        if (check == 0) {
             WorkoutActivity.setCheck(1);
             return true;
         }
@@ -293,8 +293,7 @@ public class JumpActivity extends AppCompatActivity implements SensorEventListen
                 .setIcon(android.R.drawable.ic_dialog_alert)
                 .setTitle("Closing Activity")
                 .setMessage(msg)
-                .setPositiveButton("Yes", new DialogInterface.OnClickListener()
-                {
+                .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         Intent intent = new Intent(JumpActivity.this, MainActivity.class);
