@@ -1,7 +1,10 @@
 package com.example.elin.interactice;
 
+import android.Manifest;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
@@ -9,6 +12,8 @@ import android.hardware.SensorManager;
 import android.media.MediaPlayer;
 import android.os.Handler;
 import android.os.Looper;
+import android.os.Vibrator;
+import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -32,6 +37,7 @@ public class JumpActivity extends AppCompatActivity implements SensorEventListen
     private int nbrOfReps;
     private long startTime;
     private long endTime;
+    private Vibrator v ;
 
     //Soundfiles
     private MediaPlayer gb;
@@ -159,6 +165,7 @@ public class JumpActivity extends AppCompatActivity implements SensorEventListen
                         currentNbrJumps++;
                         countWithMe(currentNbrJumps);
                         nbrJump.setText(Integer.toString(currentNbrJumps));
+                        Vib();
                         if (threeRepsLeft(currentNbrJumps, nbrOfReps)) {
                             threeJumps.start();
                         }
@@ -181,6 +188,15 @@ public class JumpActivity extends AppCompatActivity implements SensorEventListen
                 }
             }
         }
+    }
+
+    public void Vib(){
+
+        v =  (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.VIBRATE) != PackageManager.PERMISSION_GRANTED) {
+            return;
+        }
+        v.vibrate(300);
     }
 
     private boolean detectDown(float[] values) {
