@@ -15,7 +15,6 @@ public class FinishActivity extends AppCompatActivity {
     public Long workoutTime;
     private MediaPlayer excellent;
     private MediaPlayer twominworkout;
-    private MediaPlayer checkstat;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -24,8 +23,7 @@ public class FinishActivity extends AppCompatActivity {
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
 
         excellent = MediaPlayer.create(this, R.raw.excellent);
-        twominworkout = MediaPlayer.create(this, R.raw.minworkout);
-        checkstat= MediaPlayer.create(this, R.raw.gotostat);
+        twominworkout = MediaPlayer.create(this, R.raw.welldonetoday);
 
         Intent intent = getIntent();
         level = intent.getStringExtra("LEVEL");
@@ -35,14 +33,7 @@ public class FinishActivity extends AppCompatActivity {
         new Handler(Looper.getMainLooper()).postDelayed(new Runnable() {
             @Override
             public void run() {
-               twominworkout.start();
-            }
-        }, 2000);
-
-        new Handler(Looper.getMainLooper()).postDelayed(new Runnable() {
-            @Override
-            public void run() {
-               checkstat.start();
+                twominworkout.start();
             }
         }, 5000);
 

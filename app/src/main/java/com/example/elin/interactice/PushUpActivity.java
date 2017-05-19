@@ -43,9 +43,6 @@ public class PushUpActivity extends AppCompatActivity implements SensorEventList
     private MediaPlayer two;
     private MediaPlayer three;
     private MediaPlayer doPushUps;
-    private MediaPlayer doubletaptoskip;
-    private int check=0;
-    private MediaPlayer activityskipped;
     private MediaPlayer tone;
 
 
@@ -56,17 +53,15 @@ public class PushUpActivity extends AppCompatActivity implements SensorEventList
         setContentView(R.layout.activity_push_up);
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
 
-        threePush = MediaPlayer.create(this, R.raw.threepushlefttodo);
-        gb = MediaPlayer.create(this, R.raw.goodjob4);
+        threePush = MediaPlayer.create(this, R.raw.threeleft);
+        gb = MediaPlayer.create(this, R.raw.goodjob);
         one = MediaPlayer.create(this, R.raw.one);
         two = MediaPlayer.create(this, R.raw.two);
         three = MediaPlayer.create(this, R.raw.three);
         doPushUps = MediaPlayer.create(this, R.raw.timeforpushupsdoten);
-        doubletaptoskip=MediaPlayer.create(this, R.raw.duringtapskip);
-        activityskipped=MediaPlayer.create(this, R.raw.activityskipped);
         tone=MediaPlayer.create(this, R.raw.tone);
 
-        gb = MediaPlayer.create(this, R.raw.goodjob4);
+        gb = MediaPlayer.create(this, R.raw.goodjob);
         mSensorManager= (SensorManager)getSystemService(SENSOR_SERVICE);
         mAccelerator=mSensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
         nbrPushUp = (TextView) findViewById(R.id.nbrPushUps);
@@ -75,19 +70,7 @@ public class PushUpActivity extends AppCompatActivity implements SensorEventList
 
         startTime = System.currentTimeMillis();
         nbrOfReps = getIntent().getIntExtra("REPS", 0);
-
-      /*  if(checkIfFirstActivity(check)){
-            doubletaptoskip.start();
-            new Handler(Looper.getMainLooper()).postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    doPushUps.start();
-                }
-            }, 6000);
-        }else {*/
-            doPushUps.start();
-       // }
-
+        doPushUps.start();
 
         final GestureDetector gd = new GestureDetector(getApplicationContext(), new GestureDetector.SimpleOnGestureListener(){
             @Override
@@ -165,7 +148,6 @@ public class PushUpActivity extends AppCompatActivity implements SensorEventList
                         }, 3000);
                     }
                 }
-
             }
         }
     }
@@ -263,14 +245,6 @@ public class PushUpActivity extends AppCompatActivity implements SensorEventList
         }else if(!threeRepsLeft(currentNbrPushUp, nbrOfReps)){
         tone.start();
     }
-    }
-
-    public boolean checkIfFirstActivity(int check){
-        if(check==0){
-            check=1;
-            return true;
-        }
-        return false;
     }
 
     @Override

@@ -3,8 +3,6 @@ package com.example.elin.interactice;
 import android.content.Intent;
 import android.media.MediaPlayer;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Looper;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.GestureDetector;
@@ -20,10 +18,8 @@ public class WorkoutActivity extends AppCompatActivity {
     public boolean timeToRun = true;
     private int nbrOfReps = 10;
     private int activityIndex = 0;
-    private MediaPlayer fastenphone;
     private MediaPlayer doubletapstart;
     private long totalWorkoutTime;
-    public static int check=0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,8 +34,7 @@ public class WorkoutActivity extends AppCompatActivity {
             }
         });*/
 
-        fastenphone =MediaPlayer.create(this, R.raw.fastenyourphone);
-        doubletapstart=MediaPlayer.create(this, R.raw.doubletaptostart);
+        doubletapstart=MediaPlayer.create(this, R.raw.startversiontwo);
 
 
         Intent intent = getIntent();
@@ -53,14 +48,8 @@ public class WorkoutActivity extends AppCompatActivity {
 
         levelField.setText("Level: " + level);
         timeField.setText("Time: " + workoutTime + " min");
-        fastenphone.start();
 
-        new Handler(Looper.getMainLooper()).postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                doubletapstart.start();
-            }
-        }, 2000);
+        doubletapstart.start();
 
         //converting to millisec from min
         //workoutTime = workoutTime*1000*60;
@@ -159,13 +148,5 @@ public class WorkoutActivity extends AppCompatActivity {
             }
         }
         workoutHandler(workoutTime);
-    }
-
-    public static int getCheck(){
-        return check;
-    }
-
-    public static void setCheck(int checkNew){
-        check = checkNew;
     }
 }

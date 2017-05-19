@@ -11,8 +11,6 @@ import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.media.MediaPlayer;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Looper;
 import android.os.Vibrator;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AlertDialog;
@@ -43,15 +41,20 @@ public class JumpActivity extends AppCompatActivity implements SensorEventListen
 
 
     //Soundfiles
-    private MediaPlayer gb;
+    //private MediaPlayer gb;
     private MediaPlayer threeJumps;
     private MediaPlayer one;
     private MediaPlayer two;
     private MediaPlayer three;
+    private MediaPlayer four;
+    private MediaPlayer five;
+    private MediaPlayer six;
+    private MediaPlayer seven;
+    private MediaPlayer eight;
+    private MediaPlayer nine;
+    private MediaPlayer ten;
     private MediaPlayer letsJump;
-    private MediaPlayer doubletaptoskip;
-    private MediaPlayer activityskipped;
-    private MediaPlayer tone;
+    //private MediaPlayer tone;
 
 
     @Override
@@ -60,15 +63,20 @@ public class JumpActivity extends AppCompatActivity implements SensorEventListen
         setContentView(R.layout.activity_jump);
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
 
-        threeJumps = MediaPlayer.create(this, R.raw.threejumpsleft);
-        gb = MediaPlayer.create(this, R.raw.goodjob4);
+        threeJumps = MediaPlayer.create(this, R.raw.threeleft);
+        //gb = MediaPlayer.create(this, R.raw.goodjob);
         one = MediaPlayer.create(this, R.raw.one);
         two = MediaPlayer.create(this, R.raw.two);
         three = MediaPlayer.create(this, R.raw.three);
-        letsJump = MediaPlayer.create(this, R.raw.letsdojumpten);
-        doubletaptoskip = MediaPlayer.create(this, R.raw.duringtapskip);
-        activityskipped = MediaPlayer.create(this, R.raw.activityskipped);
-        tone = MediaPlayer.create(this, R.raw.tone);
+        four = MediaPlayer.create(this, R.raw.four);
+        five = MediaPlayer.create(this, R.raw.five);
+        six = MediaPlayer.create(this, R.raw.six);
+        seven = MediaPlayer.create(this, R.raw.seven);
+        eight = MediaPlayer.create(this, R.raw.eight);
+        nine = MediaPlayer.create(this, R.raw.nine);
+        ten = MediaPlayer.create(this, R.raw.ten);
+        letsJump = MediaPlayer.create(this, R.raw.nowdotenjump);
+        //tone = MediaPlayer.create(this, R.raw.tone);
 
         mSensorManager = (SensorManager) getSystemService(SENSOR_SERVICE);
         mAccelerator = mSensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
@@ -84,24 +92,12 @@ public class JumpActivity extends AppCompatActivity implements SensorEventListen
 
         startTime = System.currentTimeMillis();
         nbrOfReps = getIntent().getIntExtra("JUMPS", 0);
-        Integer c = WorkoutActivity.getCheck();
 
-        if (checkIfFirstActivity(c)) {
-            doubletaptoskip.start();
-            new Handler(Looper.getMainLooper()).postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    letsJump.start();
-                }
-            }, 6000);
-        } else {
-            letsJump.start();
-        }
+        letsJump.start();
 
         final GestureDetector gd = new GestureDetector(getApplicationContext(), new GestureDetector.SimpleOnGestureListener() {
             @Override
             public boolean onDoubleTap(MotionEvent e) {
-                //activityskipped.start();
                 nextActivity(findViewById(android.R.id.content));
 
                 return true;
@@ -190,24 +186,23 @@ public class JumpActivity extends AppCompatActivity implements SensorEventListen
                         countWithMe(currentNbrJumps);
                         nbrJump.setText(Integer.toString(currentNbrJumps));
                         Vib();
-                        if (threeRepsLeft(currentNbrJumps, nbrOfReps)) {
+                        if (nbrOfReps - currentNbrJumps == 3) {
                             threeJumps.start();
                         }
                         if (currentNbrJumps == nbrOfReps) {
                             nbrJump.setText("");
-                            finishedField.setText("Good job!");
-                            gb.start();
+                            /*finishedField.setText("Good job!");
+                            gb.start();*/
                             endTime = System.currentTimeMillis();
                             Intent intent = new Intent();
                             intent.putExtra("TIMELEFT", endTime - startTime);
                             setResult(RESULT_OK, intent);
-                            new Handler(Looper.getMainLooper()).postDelayed(new Runnable() {
+                            /*new Handler(Looper.getMainLooper()).postDelayed(new Runnable() {
                                 @Override
                                 public void run() {
                                     finish();
                                 }
-                            }, 3000);
-
+                            }, 3000);*/
                         }
                     }
                 }
@@ -277,11 +272,6 @@ public class JumpActivity extends AppCompatActivity implements SensorEventListen
         finish();
     }
 
-    public boolean threeRepsLeft(int currentNbrJumps, int nbrOfReps) {
-        int remaining = nbrOfReps - currentNbrJumps;
-        return remaining == 3;
-    }
-
     public void countWithMe(int currentNbrJumps) {
         if (currentNbrJumps == 1) {
             one.start();
@@ -289,17 +279,21 @@ public class JumpActivity extends AppCompatActivity implements SensorEventListen
             two.start();
         } else if (currentNbrJumps == 3) {
             three.start();
-        } else if (!threeRepsLeft(currentNbrJumps, nbrOfReps)) {
-            tone.start();
+        } else if (currentNbrJumps == 4) {
+            four.start();
+        } else if (currentNbrJumps == 5) {
+            five.start();
+        } else if (currentNbrJumps == 6) {
+            six.start();
+        } else if (currentNbrJumps == 7) {
+            seven.start();
+        } else if (currentNbrJumps == 8) {
+            eight.start();
+        } else if (currentNbrJumps == 9) {
+            nine.start();
+        } else if (currentNbrJumps == 10) {
+            ten.start();
         }
-    }
-
-    public boolean checkIfFirstActivity(int check) {
-        if (check == 0) {
-            WorkoutActivity.setCheck(1);
-            return true;
-        }
-        return false;
     }
 
     @Override
