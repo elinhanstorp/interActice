@@ -33,6 +33,10 @@ public class FinishActivity extends AppCompatActivity {
         new Handler(Looper.getMainLooper()).postDelayed(new Runnable() {
             @Override
             public void run() {
+                excellent.release();
+                excellent = null;
+                twominworkout.release();
+                twominworkout = null;
                 twominworkout.start();
             }
         }, 5000);

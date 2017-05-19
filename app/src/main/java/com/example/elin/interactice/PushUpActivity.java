@@ -42,8 +42,14 @@ public class PushUpActivity extends AppCompatActivity implements SensorEventList
     private MediaPlayer one;
     private MediaPlayer two;
     private MediaPlayer three;
+    private MediaPlayer four;
+    private MediaPlayer five;
+    private MediaPlayer six;
+    private MediaPlayer seven;
+    private MediaPlayer eight;
+    private MediaPlayer nine;
+    private MediaPlayer ten;
     private MediaPlayer doPushUps;
-    private MediaPlayer tone;
 
 
 
@@ -58,8 +64,14 @@ public class PushUpActivity extends AppCompatActivity implements SensorEventList
         one = MediaPlayer.create(this, R.raw.one);
         two = MediaPlayer.create(this, R.raw.two);
         three = MediaPlayer.create(this, R.raw.three);
+        four = MediaPlayer.create(this, R.raw.four);
+        five = MediaPlayer.create(this, R.raw.five);
+        six = MediaPlayer.create(this, R.raw.six);
+        seven = MediaPlayer.create(this, R.raw.seven);
+        eight = MediaPlayer.create(this, R.raw.eight);
+        nine = MediaPlayer.create(this, R.raw.nine);
+        ten = MediaPlayer.create(this, R.raw.ten);
         doPushUps = MediaPlayer.create(this, R.raw.timeforpushupsdoten);
-        tone=MediaPlayer.create(this, R.raw.tone);
 
         gb = MediaPlayer.create(this, R.raw.goodjob);
         mSensorManager= (SensorManager)getSystemService(SENSOR_SERVICE);
@@ -143,6 +155,30 @@ public class PushUpActivity extends AppCompatActivity implements SensorEventList
                         new Handler(Looper.getMainLooper()).postDelayed(new Runnable() {
                             @Override
                             public void run() {
+                                threePush.release();
+                                threePush = null;
+                                one.release();
+                                one = null;
+                                two.release();
+                                two = null;
+                                three.release();
+                                three = null;
+                                four.release();
+                                four = null;
+                                five.release();
+                                five = null;
+                                six.release();
+                                six = null;
+                                seven.release();
+                                seven = null;
+                                eight.release();
+                                eight = null;
+                                nine.release();
+                                nine = null;
+                                ten.release();
+                                ten = null;
+                                doPushUps.release();
+                                doPushUps = null;
                                 finish();
                             }
                         }, 3000);
@@ -242,9 +278,21 @@ public class PushUpActivity extends AppCompatActivity implements SensorEventList
             two.start();
         }else if(currentNbrPushUp==3){
             three.start();
-        }else if(!threeRepsLeft(currentNbrPushUp, nbrOfReps)){
-        tone.start();
-    }
+        } else if (currentNbrPushUp == 4) {
+            four.start();
+        } else if (currentNbrPushUp == 5) {
+            five.start();
+        } else if (currentNbrPushUp == 6) {
+            six.start();
+        } else if (currentNbrPushUp == 7) {
+            seven.start();
+        } else if (currentNbrPushUp == 8) {
+            eight.start();
+        } else if (currentNbrPushUp == 9) {
+            nine.start();
+        } else if (currentNbrPushUp == 10) {
+            ten.start();
+        }
     }
 
     @Override

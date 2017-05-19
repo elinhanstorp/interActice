@@ -11,6 +11,8 @@ import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.media.MediaPlayer;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
 import android.os.Vibrator;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AlertDialog;
@@ -197,12 +199,37 @@ public class JumpActivity extends AppCompatActivity implements SensorEventListen
                             Intent intent = new Intent();
                             intent.putExtra("TIMELEFT", endTime - startTime);
                             setResult(RESULT_OK, intent);
-                            /*new Handler(Looper.getMainLooper()).postDelayed(new Runnable() {
+
+                            new Handler(Looper.getMainLooper()).postDelayed(new Runnable() {
                                 @Override
                                 public void run() {
+                                    threeJumps.release();
+                                    threeJumps = null;
+                                    one.release();
+                                    one = null;
+                                    two.release();
+                                    two = null;
+                                    three.release();
+                                    three = null;
+                                    four.release();
+                                    four = null;
+                                    five.release();
+                                    five = null;
+                                    six.release();
+                                    six = null;
+                                    seven.release();
+                                    seven = null;
+                                    eight.release();
+                                    eight = null;
+                                    nine.release();
+                                    nine = null;
+                                    ten.release();
+                                    ten = null;
+                                    letsJump.release();
+                                    letsJump = null;
                                     finish();
                                 }
-                            }, 3000);*/
+                            }, 3000);
                         }
                     }
                 }
