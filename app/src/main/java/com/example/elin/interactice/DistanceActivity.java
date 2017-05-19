@@ -118,8 +118,8 @@ public class DistanceActivity extends AppCompatActivity implements SensorEventLi
                 Intent intent = new Intent();
                 intent.putExtra("TIMELEFT", endTime - startTime);
                 setResult(RESULT_OK, intent);
-                startRun = null;
                 startRun.release();
+                startRun = null;
                 new Handler(Looper.getMainLooper()).postDelayed(new Runnable() {
                     @Override
                     public void run() {
