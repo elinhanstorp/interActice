@@ -73,6 +73,8 @@ public class WorkoutActivity extends AppCompatActivity {
         final GestureDetector gd = new GestureDetector(getApplicationContext(), new GestureDetector.SimpleOnGestureListener(){
             @Override
             public boolean onDoubleTap(MotionEvent e) {
+                doubletapstart.release();
+                doubletapstart = null;
                 workoutHandler(workoutTime);
                 return true;
             }

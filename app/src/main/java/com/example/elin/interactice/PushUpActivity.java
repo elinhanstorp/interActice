@@ -17,7 +17,6 @@ import android.os.Vibrator;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.GestureDetector;
 import android.view.MotionEvent;
 import android.view.View;
@@ -36,9 +35,9 @@ public class PushUpActivity extends AppCompatActivity implements SensorEventList
     private int nbrOfReps;
     private long startTime;
     private long endTime;
+    private boolean instructionsDone = false;
 
     private MediaPlayer gb;
-    private MediaPlayer threePush;
     private MediaPlayer one;
     private MediaPlayer two;
     private MediaPlayer three;
@@ -48,7 +47,6 @@ public class PushUpActivity extends AppCompatActivity implements SensorEventList
     private MediaPlayer seven;
     private MediaPlayer eight;
     private MediaPlayer nine;
-    private MediaPlayer ten;
     private MediaPlayer doPushUps;
 
 
@@ -59,7 +57,6 @@ public class PushUpActivity extends AppCompatActivity implements SensorEventList
         setContentView(R.layout.activity_push_up);
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
 
-        threePush = MediaPlayer.create(this, R.raw.threeleft);
         gb = MediaPlayer.create(this, R.raw.goodjob);
         one = MediaPlayer.create(this, R.raw.one);
         two = MediaPlayer.create(this, R.raw.two);
@@ -70,7 +67,6 @@ public class PushUpActivity extends AppCompatActivity implements SensorEventList
         seven = MediaPlayer.create(this, R.raw.seven);
         eight = MediaPlayer.create(this, R.raw.eight);
         nine = MediaPlayer.create(this, R.raw.nine);
-        ten = MediaPlayer.create(this, R.raw.ten);
         doPushUps = MediaPlayer.create(this, R.raw.timeforpushupsdoten);
 
         gb = MediaPlayer.create(this, R.raw.goodjob);
@@ -83,10 +79,60 @@ public class PushUpActivity extends AppCompatActivity implements SensorEventList
         startTime = System.currentTimeMillis();
         nbrOfReps = getIntent().getIntExtra("REPS", 0);
         doPushUps.start();
+        new Handler(Looper.getMainLooper()).postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                instructionsDone = true;
+            }
+        }, 2000);
 
         final GestureDetector gd = new GestureDetector(getApplicationContext(), new GestureDetector.SimpleOnGestureListener(){
             @Override
             public boolean onDoubleTap(MotionEvent e) {
+                if(gb != null){
+                    gb.release();
+                    gb = null;
+                }
+                if(one != null){
+                    one.release();
+                    one = null;
+                }
+                if(two != null){
+                    two.release();
+                    two = null;
+                }
+                if(three != null){
+                    three.release();
+                    three = null;
+                }
+                if(four != null){
+                    four.release();
+                    four = null;
+                }
+                if(five != null){
+                    five.release();
+                    five = null;
+                }
+                if(six != null){
+                    six.release();
+                    six = null;
+                }
+                if(seven != null){
+                    seven.release();
+                    seven = null;
+                }
+                if(eight != null){
+                    eight.release();
+                    eight = null;
+                }
+                if(nine != null){
+                    nine.release();
+                    nine = null;
+                }
+                if(doPushUps != null){
+                    doPushUps.release();
+                    doPushUps = null;
+                }
                 nextActivity(findViewById(android.R.id.content));
                 return true;
             }
@@ -122,66 +168,45 @@ public class PushUpActivity extends AppCompatActivity implements SensorEventList
     public void onSensorChanged(SensorEvent event) {
         float[] accelerationValues= getValues(event);
 
-        for(int i=0; i<accelerationValues.length; i++){
+        /*for(int i=0; i<accelerationValues.length; i++){
             if(i==1) {
                 Log.d(Integer.toString(i), Float.toString(accelerationValues[i]));
             }
-        }
+        }*/
 
-        if (currentPosUp) {
-            if (detectDown(accelerationValues)) {
-                currentPosUp = false;
-            }
-        } else {
-            if (detectUp(accelerationValues)) {
-                if (currentNbrPushUp < nbrOfReps) {
-                    currentPosUp = true;
-                    currentNbrPushUp++;
-                    Vib();
-                    countWithMe(currentNbrPushUp);
-                    nbrPushUp.setText(Integer.toString(currentNbrPushUp));
-                    if (threeRepsLeft(currentNbrPushUp, nbrOfReps)) {
-                        threePush.start();
-                    }
-                    if (currentNbrPushUp == nbrOfReps) {
-                        nbrPushUp.setText("");
-                        finishedField.setText("Good job!");
-                        gb.start();
-                        endTime = System.currentTimeMillis();
-                        Intent intent = new Intent();
-                        intent.putExtra("TIMELEFT", endTime - startTime);
-                        setResult(RESULT_OK, intent);
+        if(instructionsDone) {
+            if (currentPosUp) {
+                if (detectDown(accelerationValues)) {
+                    currentPosUp = false;
+                }
+            } else {
+                if (detectUp(accelerationValues)) {
+                    if (currentNbrPushUp < nbrOfReps) {
+                        currentPosUp = true;
+                        currentNbrPushUp++;
+                        Vib();
+                        countWithMe(currentNbrPushUp);
+                        nbrPushUp.setText(Integer.toString(currentNbrPushUp));
+                        if (currentNbrPushUp == nbrOfReps) {
+                            nbrPushUp.setText("");
+                            finishedField.setText("Good job!");
+                            gb.start();
+                            endTime = System.currentTimeMillis();
+                            Intent intent = new Intent();
+                            intent.putExtra("TIMELEFT", endTime - startTime);
+                            setResult(RESULT_OK, intent);
 
-                        new Handler(Looper.getMainLooper()).postDelayed(new Runnable() {
-                            @Override
-                            public void run() {
-                                threePush.release();
-                                threePush = null;
-                                one.release();
-                                one = null;
-                                two.release();
-                                two = null;
-                                three.release();
-                                three = null;
-                                four.release();
-                                four = null;
-                                five.release();
-                                five = null;
-                                six.release();
-                                six = null;
-                                seven.release();
-                                seven = null;
-                                eight.release();
-                                eight = null;
-                                nine.release();
-                                nine = null;
-                                ten.release();
-                                ten = null;
-                                doPushUps.release();
-                                doPushUps = null;
-                                finish();
-                            }
-                        }, 3000);
+                            new Handler(Looper.getMainLooper()).postDelayed(new Runnable() {
+                                @Override
+                                public void run() {
+                                    gb.release();
+                                    gb = null;
+                                    doPushUps.release();
+                                    doPushUps = null;
+                                    finish();
+                                }
+                            }, 3000);
+                        }
                     }
                 }
             }
@@ -275,23 +300,41 @@ public class PushUpActivity extends AppCompatActivity implements SensorEventList
         if(currentNbrPushUp==1){
             one.start();
         }else if(currentNbrPushUp==2){
+            one.release();
+            one = null;
             two.start();
         }else if(currentNbrPushUp==3){
+            two.release();
+            two = null;
             three.start();
         } else if (currentNbrPushUp == 4) {
+            three.release();
+            three = null;
             four.start();
         } else if (currentNbrPushUp == 5) {
+            four.release();
+            four = null;
             five.start();
         } else if (currentNbrPushUp == 6) {
+            five.release();
+            five = null;
             six.start();
         } else if (currentNbrPushUp == 7) {
+            six.release();
+            six = null;
             seven.start();
         } else if (currentNbrPushUp == 8) {
+            seven.release();
+            seven = null;
             eight.start();
         } else if (currentNbrPushUp == 9) {
+            eight.release();
+            eight = null;
             nine.start();
         } else if (currentNbrPushUp == 10) {
-            ten.start();
+            nine.release();
+            nine = null;
+            gb.start();
         }
     }
 

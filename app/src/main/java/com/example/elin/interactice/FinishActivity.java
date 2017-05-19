@@ -33,13 +33,24 @@ public class FinishActivity extends AppCompatActivity {
         new Handler(Looper.getMainLooper()).postDelayed(new Runnable() {
             @Override
             public void run() {
-                excellent.release();
-                excellent = null;
-                twominworkout.release();
-                twominworkout = null;
-                twominworkout.start();
+                if(excellent != null) {
+                    excellent.release();
+                    excellent = null;
+                }
+                if(twominworkout!=null){
+                    twominworkout.start();
+                }
             }
         }, 5000);
+        new Handler(Looper.getMainLooper()).postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                if(twominworkout != null){
+                    twominworkout.release();
+                    twominworkout = null;
+                }
+            }
+        }, 4000);
 
         TextView levelField =  (TextView)findViewById(R.id.level);
         TextView timeField =  (TextView)findViewById(R.id.time);

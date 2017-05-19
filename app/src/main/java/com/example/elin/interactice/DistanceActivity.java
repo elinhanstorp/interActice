@@ -19,7 +19,7 @@ import android.view.View;
 import android.view.WindowManager;
 import android.widget.TextView;
 
-public class DistanceActivity extends AppCompatActivity implements SensorEventListener{
+public class DistanceActivity extends AppCompatActivity implements SensorEventListener {
 
     private SensorManager sensorManager;
     private TextView meter;
@@ -47,9 +47,13 @@ public class DistanceActivity extends AppCompatActivity implements SensorEventLi
         startTime = System.currentTimeMillis();
         startRun.start();
 
-        final GestureDetector gd = new GestureDetector(getApplicationContext(), new GestureDetector.SimpleOnGestureListener(){
+        final GestureDetector gd = new GestureDetector(getApplicationContext(), new GestureDetector.SimpleOnGestureListener() {
             @Override
             public boolean onDoubleTap(MotionEvent e) {
+                if(startRun !=null){
+                    startRun.release();
+                    startRun = null;
+                }
                 nextActivity(findViewById(android.R.id.content));
                 return true;
             }
@@ -74,7 +78,6 @@ public class DistanceActivity extends AppCompatActivity implements SensorEventLi
         findViewById(android.R.id.content).setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
-
                 return gd.onTouchEvent(event);
             }
         });
@@ -82,7 +85,7 @@ public class DistanceActivity extends AppCompatActivity implements SensorEventLi
 
     @Override
     protected void onResume() {
-        overridePendingTransition(0,0);
+        overridePendingTransition(0, 0);
         super.onResume();
         activityRunning = true;
         Sensor countSensor = sensorManager.getDefaultSensor(Sensor.TYPE_STEP_COUNTER);
@@ -94,7 +97,7 @@ public class DistanceActivity extends AppCompatActivity implements SensorEventLi
 
     @Override
     protected void onPause() {
-        overridePendingTransition(0,0);
+        overridePendingTransition(0, 0);
         super.onPause();
         activityRunning = false;
     }
@@ -103,31 +106,33 @@ public class DistanceActivity extends AppCompatActivity implements SensorEventLi
     @Override
     public void onSensorChanged(SensorEvent event) {
         if (activityRunning) {
-            if(initCountValue < 1){
-                initCountValue = (int)event.values[0];
+            if (initCountValue < 1) {
+                initCountValue = (int) event.values[0];
             }
 
             //Since it will return the total number since we registered, we need to subtract the initial amount of steps
-            int steps = ((int)event.values[0]) - initCountValue;
-            double remaining = meters - steps*0.74;
+            int steps = ((int) event.values[0]) - initCountValue;
+            double remaining = meters - steps * 0.74;
 
-
-            if(remaining <= 0){
+            if (remaining <= 0) {
                 meter.setText("Well done!");
                 endTime = System.currentTimeMillis();
                 Intent intent = new Intent();
                 intent.putExtra("TIMELEFT", endTime - startTime);
                 setResult(RESULT_OK, intent);
-                startRun.release();
-                startRun = null;
+
                 new Handler(Looper.getMainLooper()).postDelayed(new Runnable() {
                     @Override
                     public void run() {
+                        if(startRun!=null) {
+                            startRun.release();
+                            startRun = null;
+                        }
                         finish();
                     }
                 }, 2000);
-            }else{
-                meter.setText("Number of meters left:  " + String.valueOf((int)remaining));
+            } else {
+                meter.setText("Number of meters left:  " + String.valueOf((int) remaining));
             }
         }
 
@@ -152,18 +157,17 @@ public class DistanceActivity extends AppCompatActivity implements SensorEventLi
                 .setIcon(android.R.drawable.ic_dialog_alert)
                 .setTitle("Closing Activity")
                 .setMessage(msg)
-                        .setPositiveButton("Yes", new DialogInterface.OnClickListener()
-                        {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                Intent intent = new Intent(DistanceActivity.this, MainActivity.class);
-                                startActivity(intent);
+                .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        Intent intent = new Intent(DistanceActivity.this, MainActivity.class);
+                        startActivity(intent);
 
-                            }
+                    }
 
-                        })
-                        .setNegativeButton("No", null)
-                        .show();
+                })
+                .setNegativeButton("No", null)
+                .show();
     }
 
 }
